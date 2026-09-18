@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Quản lý nhân viên</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-primary">
+
+    <div class="container">
+
+        <a class="navbar-brand"
+           href="/">
+            Quản lý thư viện
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container mt-4">
+
+    <!-- TIÊU ĐỀ -->
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <h2>
+            Quản lý nhân viên
+        </h2>
+
+        <a href="/nhanvien/them"
+           class="btn btn-primary">
+
+            + Thêm nhân viên
+
+        </a>
+
+    </div>
+
+
+    <!-- BẢNG NHÂN VIÊN -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-primary">
+
+                    <tr>
+
+                        <th>Mã nhân viên</th>
+
+                        <th>Họ</th>
+
+                        <th>Tên</th>
+
+                        <th>Phái</th>
+
+                        <th>Ngày sinh</th>
+
+                        <th>Chức vụ</th>
+
+                        <th>Số điện thoại</th>
+
+                        <th style="width: 160px;">
+                            Thao tác
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    <tr
+                        th:each="nv : ${danhSachNhanVien}">
+
+                        <td th:text="${nv.maNhanVien}">
+                            NV01
+                        </td>
+
+                        <td th:text="${nv.ho}">
+                            Nguyễn
+                        </td>
+
+                        <td th:text="${nv.ten}">
+                            Văn A
+                        </td>
+
+                        <td th:text="${nv.phai}">
+                            Nam
+                        </td>
+
+                        <td th:text="${nv.ngaySinh}">
+                            1990-05-15
+                        </td>
+
+                        <td th:text="${nv.chucVu}">
+                            Thủ thư
+                        </td>
+
+                        <td th:text="${nv.soDienThoai}">
+                            0901234567
+                        </td>
+
+                        <td>
+
+                            <a
+                                th:href="@{/nhanvien/sua/{id}(id=${nv.maNhanVien})}"
+                                class="btn btn-warning btn-sm">
+
+                                Sửa
+
+                            </a>
+
+
+                            <a
+                                th:href="@{/nhanvien/xoa/{id}(id=${nv.maNhanVien})}"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('Bạn có chắc muốn xóa nhân viên này không?');">
+
+                                Xóa
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- KHÔNG CÓ DỮ LIỆU -->
+
+                    <tr
+                        th:if="${#lists.isEmpty(danhSachNhanVien)}">
+
+                        <td colspan="8"
+                            class="text-center text-muted">
+
+                            Chưa có nhân viên nào.
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUAY VỀ TRANG CHỦ -->
+
+    <div class="mt-3">
+
+        <a href="/"
+           class="btn btn-secondary">
+
+            ← Trang chủ
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+
+</html>

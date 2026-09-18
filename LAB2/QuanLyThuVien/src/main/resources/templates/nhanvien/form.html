@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${tieuDe}">
+        Nhân viên
+    </title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-primary">
+
+    <div class="container">
+
+        <a class="navbar-brand"
+           href="/">
+            Quản lý thư viện
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h4 class="mb-0"
+                        th:text="${tieuDe}">
+                        Thêm nhân viên
+                    </h4>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <!-- THÔNG BÁO LỖI -->
+
+                    <div
+                        th:if="${loi}"
+                        class="alert alert-danger"
+                        th:text="${loi}">
+
+                        Lỗi
+
+                    </div>
+
+
+                    <!-- FORM -->
+
+                    <form
+                        th:action="@{/nhanvien/luu}"
+                        th:object="${nhanVien}"
+                        method="post">
+
+
+                        <!-- MÃ NHÂN VIÊN -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label">
+                                Mã nhân viên
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                th:field="*{maNhanVien}"
+                                placeholder="VD: NV03"
+                                required>
+
+                        </div>
+
+
+                        <!-- HỌ -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label">
+                                Họ
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                th:field="*{ho}"
+                                placeholder="VD: Nguyễn"
+                                required>
+
+                        </div>
+
+
+                        <!-- TÊN -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label">
+                                Tên
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                th:field="*{ten}"
+                                placeholder="VD: Văn C"
+                                required>
+
+                        </div>
+
+
+                        <!-- PHÁI -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label">
+                                Phái
+                            </label>
+
+                            <select
+                                class="form-select"
+                                th:field="*{phai}"
+                                required>
+
+                                <option value="">
+                                    -- Chọn phái --
+                                </option>
+
+                                <option value="Nam">
+                                    Nam
+                                </option>
+
+                                <option value="Nữ">
+                                    Nữ
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- NGÀY SINH -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label">
+                                Ngày sinh
+                            </label>
+
+                            <input
+                                type="date"
+                                class="form-control"
+                                th:field="*{ngaySinh}"
+                                required>
+
+                        </div>
+
+
+                        <!-- CHỨC VỤ -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label">
+                                Chức vụ
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                th:field="*{chucVu}"
+                                placeholder="VD: Thủ thư"
+                                required>
+
+                        </div>
+
+
+                        <!-- SỐ ĐIỆN THOẠI -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label">
+                                Số điện thoại
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                th:field="*{soDienThoai}"
+                                placeholder="VD: 0901234567">
+
+                        </div>
+
+
+                        <!-- BUTTON -->
+
+                        <div class="d-flex gap-2">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary">
+
+                                Lưu
+
+                            </button>
+
+
+                            <a
+                                href="/nhanvien"
+                                class="btn btn-secondary">
+
+                                Hủy
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+
+</html>

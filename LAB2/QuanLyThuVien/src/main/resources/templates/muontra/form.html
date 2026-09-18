@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Lập phiếu mượn</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-primary">
+
+    <div class="container">
+
+        <a href="/" class="navbar-brand">
+            Quản lý thư viện
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container mt-4">
+
+    <div class="card">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+                Lập phiếu mượn
+            </h4>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <!-- Lỗi -->
+
+            <div th:if="${loi}"
+                 class="alert alert-danger"
+                 th:text="${loi}">
+
+            </div>
+
+
+            <form action="/muontra/luu"
+                  method="post">
+
+
+                <!-- Mã phiếu -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Mã phiếu mượn
+                    </label>
+
+                    <input type="text"
+                           name="maPhieuMuon"
+                           class="form-control"
+                           th:value="${maPhieuMuon}"
+                           placeholder="Ví dụ: PM001"
+                           required>
+
+                </div>
+
+
+                <!-- Độc giả -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Độc giả
+                    </label>
+
+                    <select name="maDocGia"
+                            class="form-select"
+                            required>
+
+                        <option value="">
+                            -- Chọn độc giả --
+                        </option>
+
+                        <option th:each="dg : ${danhSachDocGia}"
+                                th:value="${dg.maDocGia}"
+                                th:text="${dg.maDocGia + ' - ' + dg.hoTen}"
+                                th:selected="${dg.maDocGia == maDocGia}">
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Nhân viên -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Nhân viên lập phiếu
+                    </label>
+
+                    <select name="maNhanVien"
+                            class="form-select"
+                            required>
+
+                        <option value="">
+                            -- Chọn nhân viên --
+                        </option>
+
+                        <option th:each="nv : ${danhSachNhanVien}"
+                                th:value="${nv.maNhanVien}"
+                                th:text="${nv.maNhanVien + ' - ' + nv.ho + ' ' + nv.ten}"
+                                th:selected="${nv.maNhanVien == maNhanVien}">
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Ngày mượn -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Ngày mượn
+                    </label>
+
+                    <input type="date"
+                           name="ngayMuon"
+                           class="form-control"
+                           th:value="${ngayMuon}"
+                           required>
+
+                </div>
+
+
+                <!-- Ngày hẹn trả -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Ngày hẹn trả
+                    </label>
+
+                    <input type="date"
+                           name="ngayHenTra"
+                           class="form-control"
+                           th:value="${ngayHenTra}"
+                           required>
+
+                </div>
+
+
+                <hr>
+
+
+                <h5>
+                    Chọn đầu sách
+                </h5>
+
+                <p class="text-muted">
+                    Có thể chọn tối đa 3 đầu sách.
+                </p>
+
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered">
+
+                        <thead>
+
+                        <tr>
+
+                            <th width="60">
+                                Chọn
+                            </th>
+
+                            <th>Mã sách</th>
+
+                            <th>Tên sách</th>
+
+                            <th>Năm XB</th>
+
+                            <th>Số lượng còn</th>
+
+                        </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                        <tr th:each="sach : ${danhSachDauSach}">
+
+                            <td>
+
+                                <input type="checkbox"
+                                       name="danhSachMaDauSach"
+                                       th:value="${sach.maDauSach}">
+
+                            </td>
+
+                            <td th:text="${sach.maDauSach}">
+                                S001
+                            </td>
+
+                            <td th:text="${sach.tenSach}">
+                                Lập trình Java căn bản
+                            </td>
+
+                            <td th:text="${sach.namXuatBan}">
+                                2023
+                            </td>
+
+                            <td th:text="${sach.soLuongHienCo}">
+                                10
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <div class="mt-3">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        Lập phiếu mượn
+
+                    </button>
+
+                    <a href="/muontra"
+                       class="btn btn-secondary">
+
+                        Quay lại
+
+                    </a>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

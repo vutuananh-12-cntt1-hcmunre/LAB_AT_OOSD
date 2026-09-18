@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${tieuDe}">
+        Thêm nhà xuất bản
+    </title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-primary">
+
+    <div class="container">
+
+        <a
+            href="/"
+            class="navbar-brand">
+
+            HỆ THỐNG QUẢN LÝ THƯ VIỆN
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container mt-4">
+
+    <h2
+        class="mb-4"
+        th:text="${tieuDe}">
+
+        Thêm nhà xuất bản
+
+    </h2>
+
+
+    <div
+        th:if="${loi}"
+        class="alert alert-danger"
+        th:text="${loi}">
+
+        Lỗi
+
+    </div>
+
+
+    <form
+        th:action="@{/nhaxuatban/luu}"
+        th:object="${nhaXuatBan}"
+        method="post">
+
+
+        <!-- MÃ NXB -->
+
+        <div class="mb-3">
+
+            <label
+                for="maNhaXuatBan"
+                class="form-label">
+
+                Mã nhà xuất bản
+
+            </label>
+
+            <input
+                type="text"
+                id="maNhaXuatBan"
+                th:field="*{maNhaXuatBan}"
+                class="form-control"
+                placeholder="Ví dụ: NXB03"
+                required>
+
+        </div>
+
+
+        <!-- TÊN NXB -->
+
+        <div class="mb-3">
+
+            <label
+                for="tenNhaXuatBan"
+                class="form-label">
+
+                Tên nhà xuất bản
+
+            </label>
+
+            <input
+                type="text"
+                id="tenNhaXuatBan"
+                th:field="*{tenNhaXuatBan}"
+                class="form-control"
+                placeholder="Nhập tên nhà xuất bản"
+                required>
+
+        </div>
+
+
+        <!-- ĐỊA CHỈ -->
+
+        <div class="mb-3">
+
+            <label
+                for="diaChi"
+                class="form-label">
+
+                Địa chỉ
+
+            </label>
+
+            <input
+                type="text"
+                id="diaChi"
+                th:field="*{diaChi}"
+                class="form-control"
+                placeholder="Nhập địa chỉ">
+
+        </div>
+
+
+        <!-- SỐ ĐIỆN THOẠI -->
+
+        <div class="mb-3">
+
+            <label
+                for="soDienThoai"
+                class="form-label">
+
+                Số điện thoại
+
+            </label>
+
+            <input
+                type="text"
+                id="soDienThoai"
+                th:field="*{soDienThoai}"
+                class="form-control"
+                placeholder="Nhập số điện thoại">
+
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <button
+            type="submit"
+            class="btn btn-primary">
+
+            Lưu
+
+        </button>
+
+        <a
+            th:href="@{/nhaxuatban}"
+            class="btn btn-secondary">
+
+            Hủy
+
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

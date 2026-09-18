@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Quản lý nhà xuất bản</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-primary">
+
+    <div class="container">
+
+        <a
+            href="/"
+            class="navbar-brand">
+
+            HỆ THỐNG QUẢN LÝ THƯ VIỆN
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <h2>
+            Quản lý nhà xuất bản
+        </h2>
+
+        <a
+            th:href="@{/nhaxuatban/them}"
+            class="btn btn-primary">
+
+            + Thêm nhà xuất bản
+
+        </a>
+
+    </div>
+
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-dark">
+
+        <tr>
+
+            <th style="width: 15%;">
+                Mã NXB
+            </th>
+
+            <th>
+                Tên nhà xuất bản
+            </th>
+
+            <th>
+                Địa chỉ
+            </th>
+
+            <th style="width: 15%;">
+                Số điện thoại
+            </th>
+
+            <th style="width: 18%;">
+                Thao tác
+            </th>
+
+        </tr>
+
+        </thead>
+
+
+        <tbody>
+
+        <tr th:each="nxb : ${danhSachNhaXuatBan}">
+
+            <td th:text="${nxb.maNhaXuatBan}">
+                NXB01
+            </td>
+
+            <td th:text="${nxb.tenNhaXuatBan}">
+                NXB Giáo Dục
+            </td>
+
+            <td th:text="${nxb.diaChi}">
+                123 Lý Thường Kiệt
+            </td>
+
+            <td th:text="${nxb.soDienThoai}">
+                02838111111
+            </td>
+
+            <td>
+
+                <a
+                    th:href="@{/nhaxuatban/sua/{id}(id=${nxb.maNhaXuatBan})}"
+                    class="btn btn-warning btn-sm">
+
+                    Sửa
+
+                </a>
+
+                <a
+                    th:href="@{/nhaxuatban/xoa/{id}(id=${nxb.maNhaXuatBan})}"
+                    class="btn btn-danger btn-sm"
+                    onclick="return confirm('Bạn có chắc muốn xóa nhà xuất bản này không?');">
+
+                    Xóa
+
+                </a>
+
+            </td>
+
+        </tr>
+
+
+        <tr th:if="${#lists.isEmpty(danhSachNhaXuatBan)}">
+
+            <td
+                colspan="5"
+                class="text-center">
+
+                Chưa có dữ liệu.
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+
+    <a
+        href="/"
+        class="btn btn-secondary">
+
+        ← Về trang chủ
+
+    </a>
+
+</div>
+
+</body>
+
+</html>
