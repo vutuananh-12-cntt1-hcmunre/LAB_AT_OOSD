@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý khách hàng</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 500px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Quản lý khách hàng</h1>
+
+    <form th:action="@{/khach-hang/them}"
+          th:object="${khachHang}"
+          method="post">
+
+        <label>Mã khách</label>
+        <input type="text"
+               th:field="*{maKhach}"
+               placeholder="Nhập mã khách">
+
+        <label>Họ tên</label>
+        <input type="text"
+               th:field="*{hoTen}"
+               placeholder="Nhập họ tên">
+
+        <label>Số CMND</label>
+        <input type="text"
+               th:field="*{soCMND}"
+               placeholder="Nhập số CMND">
+
+        <label>Quốc tịch</label>
+        <input type="text"
+               th:field="*{quocTich}"
+               placeholder="Nhập quốc tịch">
+
+        <label>Số điện thoại</label>
+        <input type="text"
+               th:field="*{soDienThoai}"
+               placeholder="Nhập số điện thoại">
+
+        <button type="submit">
+            Thêm khách hàng
+        </button>
+
+    </form>
+
+    <h2>Danh sách khách hàng</h2>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Mã khách</th>
+                <th>Họ tên</th>
+                <th>Số CMND</th>
+                <th>Quốc tịch</th>
+                <th>Số điện thoại</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr th:each="kh : ${dsKhachHang}">
+
+                <td th:text="${kh.maKhach}"></td>
+
+                <td th:text="${kh.hoTen}"></td>
+
+                <td th:text="${kh.soCMND}"></td>
+
+                <td th:text="${kh.quocTich}"></td>
+
+                <td th:text="${kh.soDienThoai}"></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>

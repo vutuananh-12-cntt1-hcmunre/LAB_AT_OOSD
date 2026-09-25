@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Quản lý tiện nghi</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: inline-block;
+            width: 180px;
+        }
+
+        input,
+        select {
+            padding: 7px;
+            width: 250px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 8px 20px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>QUẢN LÝ TIỆN NGHI</h1>
+
+
+    <!-- FORM THÊM TIỆN NGHI -->
+
+    <form
+        th:action="@{/tien-nghi/them}"
+        th:object="${tienNghi}"
+        method="post">
+
+
+        <div class="form-group">
+
+            <label>Mã tiện nghi:</label>
+
+            <input
+                type="text"
+                th:field="*{maTienNghi}"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Loại tiện nghi:</label>
+
+            <select
+                th:field="*{maLoaiTN}"
+                required>
+
+                <option value="">
+                    -- Chọn loại tiện nghi --
+                </option>
+
+                <option
+                    th:each="loai : ${dsLoaiTienNghi}"
+                    th:value="${loai.maLoaiTN}"
+                    th:text="${loai.tenLoaiTN}">
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Số thứ tự:</label>
+
+            <input
+                type="number"
+                th:field="*{soThuTu}"
+                min="1"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Tình trạng hiện tại:</label>
+
+            <input
+                type="text"
+                th:field="*{tinhTrangHienTai}"
+                placeholder="Ví dụ: Tốt">
+
+        </div>
+
+
+        <button type="submit">
+            Thêm tiện nghi
+        </button>
+
+    </form>
+
+
+    <!-- DANH SÁCH TIỆN NGHI -->
+
+    <h2>Danh sách tiện nghi</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Mã tiện nghi</th>
+
+                <th>Loại tiện nghi</th>
+
+                <th>Số thứ tự</th>
+
+                <th>Tình trạng hiện tại</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr th:each="tn : ${dsTienNghi}">
+
+                <td th:text="${tn.maTienNghi}"></td>
+
+                <td th:text="${tn.maLoaiTN}"></td>
+
+                <td th:text="${tn.soThuTu}"></td>
+
+                <td th:text="${tn.tinhTrangHienTai}"></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>

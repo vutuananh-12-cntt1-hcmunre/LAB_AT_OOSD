@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý khu vực</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+        }
+
+        input {
+            padding: 7px;
+            width: 250px;
+        }
+
+        button {
+            padding: 8px 20px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 600px;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>QUẢN LÝ KHU VỰC</h1>
+
+<form th:action="@{/khu-vuc/them}"
+      th:object="${khuVuc}"
+      method="post">
+
+    <div class="form-group">
+        <label>Mã khu vực:</label>
+        <input type="text"
+               th:field="*{maKhuVuc}"
+               required>
+    </div>
+
+    <div class="form-group">
+        <label>Tên khu vực:</label>
+        <input type="text"
+               th:field="*{tenKhuVuc}"
+               required>
+    </div>
+
+    <button type="submit">
+        Thêm khu vực
+    </button>
+
+</form>
+
+<h2>Danh sách khu vực</h2>
+
+<table>
+
+    <thead>
+        <tr>
+            <th>Mã khu vực</th>
+            <th>Tên khu vực</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr th:each="kv : ${dsKhuVuc}">
+
+            <td th:text="${kv.maKhuVuc}"></td>
+
+            <td th:text="${kv.tenKhuVuc}"></td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+</body>
+</html>

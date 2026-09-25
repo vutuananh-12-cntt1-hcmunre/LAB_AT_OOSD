@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Chi tiết đặt phòng</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 500px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Chi tiết đặt phòng</h1>
+
+    <form
+        th:action="@{/chi-tiet-dat-phong/them}"
+        th:object="${chiTietDatPhong}"
+        method="post">
+
+        <label>Phiếu đặt phòng</label>
+
+        <select th:field="*{soPhieuDat}">
+
+            <option value="">
+                -- Chọn phiếu đặt phòng --
+            </option>
+
+            <option
+                th:each="p : ${dsPhieuDatPhong}"
+                th:value="${p.soPhieuDat}"
+                th:text="${p.soPhieuDat + ' - ' + p.maKhach}">
+            </option>
+
+        </select>
+
+
+        <label>Phòng</label>
+
+        <select th:field="*{soPhong}">
+
+            <option value="">
+                -- Chọn phòng --
+            </option>
+
+            <option
+                th:each="phong : ${dsPhong}"
+                th:value="${phong.soPhong}"
+                th:text="${phong.soPhong + ' - ' + phong.trangThai}">
+            </option>
+
+        </select>
+
+
+        <label>Số người</label>
+
+        <input
+            type="number"
+            th:field="*{soNguoi}"
+            min="1"
+            placeholder="Nhập số người">
+
+
+        <button type="submit">
+            Thêm chi tiết
+        </button>
+
+    </form>
+
+
+    <h2>Danh sách chi tiết đặt phòng</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Số phiếu đặt</th>
+                <th>Số phòng</th>
+                <th>Số người</th>
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr th:each="ct : ${dsChiTietDatPhong}">
+
+                <td th:text="${ct.soPhieuDat}"></td>
+
+                <td th:text="${ct.soPhong}"></td>
+
+                <td th:text="${ct.soNguoi}"></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>

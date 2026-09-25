@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Phiếu sử dụng dịch vụ</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            width: 600px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #125aa0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Quản lý phiếu sử dụng dịch vụ</h1>
+
+    <div class="form-container">
+
+        <h2>Thêm phiếu sử dụng dịch vụ</h2>
+
+        <form th:action="@{/su-dung-dich-vu/them}"
+              th:object="${phieuSuDungDV}"
+              method="post">
+
+            <div class="form-group">
+
+                <label>Mã phiếu sử dụng dịch vụ</label>
+
+                <input type="text"
+                       th:field="*{soPhieuSDDV}"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Phiếu đặt phòng + Phòng</label>
+
+                <select id="chiTietDatPhong"
+                        required>
+
+                    <option value="">
+                        -- Chọn phiếu đặt phòng và phòng --
+                    </option>
+
+                    <option
+                        th:each="ct : ${dsChiTietDatPhong}"
+                        th:value="${ct.soPhieuDat + '|' + ct.soPhong}"
+                        th:text="${ct.soPhieuDat + ' - Phòng ' + ct.soPhong}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Số phiếu đặt</label>
+
+                <input type="text"
+                       id="soPhieuDat"
+                       th:field="*{soPhieuDat}"
+                       readonly
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Số phòng</label>
+
+                <input type="text"
+                       id="soPhong"
+                       th:field="*{soPhong}"
+                       readonly
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Ngày sử dụng</label>
+
+                <input type="date"
+                       th:field="*{ngaySuDung}"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Nhân viên</label>
+
+                <select th:field="*{maNV}"
+                        required>
+
+                    <option value="">
+                        -- Chọn nhân viên --
+                    </option>
+
+                    <option
+                        th:each="nv : ${dsNhanVien}"
+                        th:value="${nv.maNV}"
+                        th:text="${nv.maNV + ' - ' + nv.hoTen}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button type="submit">
+                Thêm phiếu
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <h2>Danh sách phiếu sử dụng dịch vụ</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Mã phiếu</th>
+                <th>Số phiếu đặt</th>
+                <th>Số phòng</th>
+                <th>Ngày sử dụng</th>
+                <th>Nhân viên</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr th:each="p : ${dsPhieuSuDungDV}">
+
+                <td th:text="${p.soPhieuSDDV}"></td>
+
+                <td th:text="${p.soPhieuDat}"></td>
+
+                <td th:text="${p.soPhong}"></td>
+
+                <td th:text="${p.ngaySuDung}"></td>
+
+                <td th:text="${p.maNV}"></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+
+    <script>
+
+        document.getElementById("chiTietDatPhong")
+            .addEventListener("change", function () {
+
+                const value = this.value;
+
+                if (value) {
+
+                    const parts = value.split("|");
+
+                    document.getElementById("soPhieuDat").value = parts[0];
+
+                    document.getElementById("soPhong").value = parts[1];
+
+                } else {
+
+                    document.getElementById("soPhieuDat").value = "";
+
+                    document.getElementById("soPhong").value = "";
+
+                }
+
+            });
+
+    </script>
+
+</body>
+
+</html>

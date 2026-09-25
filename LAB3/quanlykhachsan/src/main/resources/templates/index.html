@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khách sạn</title>
+
+    <link rel="stylesheet" th:href="@{home.css}">
+</head>
+
+<body>
+
+<div class="main-window">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>HỆ THỐNG QUẢN LÝ KHÁCH SẠN</h1>
+        <p>Quản lý và vận hành khách sạn</p>
+    </div>
+
+
+    <!-- MENU CHÍNH -->
+    <div class="menu-container">
+
+        <!-- 1. DANH MỤC -->
+        <div class="menu-section">
+            <div class="section-title">
+                <span>📋</span>
+                <span>Danh mục</span>
+            </div>
+
+            <div class="button-grid">
+
+                <a th:href="@{/khu-vuc}" class="menu-button">
+                    <span class="icon">🏢</span>
+                    <span>Khu vực</span>
+                </a>
+
+                <a th:href="@{/nhan-vien}" class="menu-button">
+                    <span class="icon">👨‍💼</span>
+                    <span>Nhân viên</span>
+                </a>
+
+                <a th:href="@{/loai-tien-nghi}" class="menu-button">
+                    <span class="icon">🛏️</span>
+                    <span>Loại tiện nghi</span>
+                </a>
+
+                <a th:href="@{/dich-vu}" class="menu-button">
+                    <span class="icon">🍽️</span>
+                    <span>Dịch vụ</span>
+                </a>
+
+                <a th:href="@{/quy-dinh-den-bu}" class="menu-button">
+                    <span class="icon">📜</span>
+                    <span>Quy định đền bù</span>
+                </a>
+
+            </div>
+        </div>
+
+
+        <!-- 2. PHÒNG - TIỆN NGHI -->
+        <div class="menu-section">
+            <div class="section-title">
+                <span>🛏️</span>
+                <span>Phòng - Tiện nghi</span>
+            </div>
+
+            <div class="button-grid">
+
+                <a th:href="@{/phong}" class="menu-button">
+                    <span class="icon">🚪</span>
+                    <span>Quản lý phòng</span>
+                </a>
+
+                <a th:href="@{/tien-nghi}" class="menu-button">
+                    <span class="icon">📺</span>
+                    <span>Quản lý tiện nghi</span>
+                </a>
+
+                <a th:href="@{/lap-dat}" class="menu-button">
+                    <span class="icon">🔧</span>
+                    <span>Lập đặt tiện nghi</span>
+                </a>
+
+            </div>
+        </div>
+
+
+        <!-- 3. ĐẶT / NHẬN PHÒNG -->
+        <div class="menu-section">
+            <div class="section-title">
+                <span>📅</span>
+                <span>Đặt / Nhận phòng</span>
+            </div>
+
+            <div class="button-grid">
+
+                <a th:href="@{/khach-hang}" class="menu-button">
+                    <span class="icon">👤</span>
+                    <span>Khách hàng</span>
+                </a>
+
+                <a th:href="@{/dat-phong}" class="menu-button">
+                    <span class="icon">📝</span>
+                    <span>Đặt phòng</span>
+                </a>
+
+                <a th:href="@{/chi-tiet-dat-phong}" class="menu-button">
+                    <span class="icon">📄</span>
+                    <span>Chi tiết đặt phòng</span>
+                </a>
+
+                <a th:href="@{/nguoi-luu-tru}" class="menu-button">
+                    <span class="icon">👥</span>
+                    <span>Người lưu trú</span>
+                </a>
+
+            </div>
+        </div>
+
+
+        <!-- 4. SỬ DỤNG DỊCH VỤ -->
+        <div class="menu-section">
+            <div class="section-title">
+                <span>🍽️</span>
+                <span>Sử dụng dịch vụ</span>
+            </div>
+
+            <div class="button-grid">
+
+                <a th:href="@{/su-dung-dich-vu}" class="menu-button">
+                    <span class="icon">🧾</span>
+                    <span>Phiếu sử dụng dịch vụ</span>
+                </a>
+
+                <a th:href="@{/chi-tiet-su-dung-dich-vu}" class="menu-button">
+                    <span class="icon">📋</span>
+                    <span>Chi tiết sử dụng dịch vụ</span>
+                </a>
+
+            </div>
+        </div>
+
+
+        <!-- 5. TRẢ PHÒNG - THANH TOÁN -->
+        <div class="menu-section">
+            <div class="section-title">
+                <span>💳</span>
+                <span>Trả phòng - Thanh toán</span>
+            </div>
+
+            <div class="button-grid">
+
+                <a th:href="@{/phieu-den-bu}" class="menu-button">
+                    <span class="icon">⚠️</span>
+                    <span>Phiếu đền bù</span>
+                </a>
+
+                <a th:href="@{/chi-tiet-phieu-den-bu}" class="menu-button">
+                    <span class="icon">📋</span>
+                    <span>Chi tiết đền bù</span>
+                </a>
+
+                <a th:href="@{/hoa-don}" class="menu-button">
+                    <span class="icon">🧾</span>
+                    <span>Hóa đơn</span>
+                </a>
+
+                <a th:href="@{/thanh-toan}" class="menu-button">
+                    <span class="icon">💰</span>
+                    <span>Thanh toán</span>
+                </a>
+
+            </div>
+        </div>
+
+
+        <!-- 6. THỐNG KÊ -->
+        <div class="menu-section">
+            <div class="section-title">
+                <span>📊</span>
+                <span>Thống kê</span>
+            </div>
+
+            <div class="button-grid">
+
+                <a th:href="@{/thong-ke}" class="menu-button">
+                    <span class="icon">📈</span>
+                    <span>Thống kê</span>
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <span>Hệ thống quản lý khách sạn</span>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Quản lý phòng</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+        }
+
+        input,
+        select {
+            padding: 7px;
+            width: 250px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 8px 20px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>QUẢN LÝ PHÒNG</h1>
+
+    <!-- FORM THÊM PHÒNG -->
+
+    <form
+        th:action="@{/phong/them}"
+        th:object="${phong}"
+        method="post">
+
+        <div class="form-group">
+
+            <label>Số phòng:</label>
+
+            <input
+                type="text"
+                th:field="*{soPhong}"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Khu vực:</label>
+
+            <select
+                th:field="*{maKhuVuc}"
+                required>
+
+                <option value="">
+                    -- Chọn khu vực --
+                </option>
+
+                <option
+                    th:each="kv : ${dsKhuVuc}"
+                    th:value="${kv.maKhuVuc}"
+                    th:text="${kv.tenKhuVuc}">
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Số người tối đa:</label>
+
+            <input
+                type="number"
+                th:field="*{soNguoiToiDa}"
+                min="1"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Đơn giá/ngày:</label>
+
+            <input
+                type="number"
+                th:field="*{donGiaNgay}"
+                min="0"
+                required>
+
+        </div>
+
+
+        <button type="submit">
+            Thêm phòng
+        </button>
+
+    </form>
+
+
+    <!-- DANH SÁCH PHÒNG -->
+
+    <h2>Danh sách phòng</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Số phòng</th>
+
+                <th>Khu vực</th>
+
+                <th>Số người tối đa</th>
+
+                <th>Đơn giá/ngày</th>
+
+                <th>Trạng thái</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr th:each="p : ${dsPhong}">
+
+                <td th:text="${p.soPhong}"></td>
+
+                <td th:text="${p.maKhuVuc}"></td>
+
+                <td th:text="${p.soNguoiToiDa}"></td>
+
+                <td th:text="${p.donGiaNgay}"></td>
+
+                <td th:text="${p.trangThai}"></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>

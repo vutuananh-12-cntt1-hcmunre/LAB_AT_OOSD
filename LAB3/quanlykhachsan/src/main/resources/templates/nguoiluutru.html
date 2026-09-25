@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Người lưu trú</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 550px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Quản lý người lưu trú</h1>
+
+    <form
+        th:action="@{/nguoi-luu-tru/them}"
+        th:object="${nguoiLuuTru}"
+        method="post">
+
+        <label>Đặt phòng - Phòng</label>
+
+        <select th:field="*{soPhieuDat}"
+                onchange="capNhatPhong(this)">
+
+            <option value="">
+                -- Chọn phiếu đặt phòng --
+            </option>
+
+            <option
+                th:each="ct : ${dsChiTietDatPhong}"
+                th:value="${ct.soPhieuDat}"
+                th:text="${ct.soPhieuDat + ' - Phòng ' + ct.soPhong}">
+            </option>
+
+        </select>
+
+        <label>Số phòng</label>
+
+        <select th:field="*{soPhong}">
+
+            <option value="">
+                -- Chọn phòng --
+            </option>
+
+            <option
+                th:each="ct : ${dsChiTietDatPhong}"
+                th:value="${ct.soPhong}"
+                th:text="${ct.soPhong}">
+            </option>
+
+        </select>
+
+
+        <label>Họ tên</label>
+
+        <input
+            type="text"
+            th:field="*{hoTen}"
+            placeholder="Nhập họ tên">
+
+
+        <label>Số CMND</label>
+
+        <input
+            type="text"
+            th:field="*{soCMND}"
+            placeholder="Nhập số CMND">
+
+
+        <label>Quốc tịch</label>
+
+        <input
+            type="text"
+            th:field="*{quocTich}"
+            placeholder="Nhập quốc tịch">
+
+
+        <button type="submit">
+            Thêm người lưu trú
+        </button>
+
+    </form>
+
+
+    <h2>Danh sách người lưu trú</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Mã người LT</th>
+                <th>Số phiếu đặt</th>
+                <th>Số phòng</th>
+                <th>Họ tên</th>
+                <th>Số CMND</th>
+                <th>Quốc tịch</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr th:each="nguoi : ${dsNguoiLuuTru}">
+
+                <td th:text="${nguoi.maNguoiLT}"></td>
+
+                <td th:text="${nguoi.soPhieuDat}"></td>
+
+                <td th:text="${nguoi.soPhong}"></td>
+
+                <td th:text="${nguoi.hoTen}"></td>
+
+                <td th:text="${nguoi.soCMND}"></td>
+
+                <td th:text="${nguoi.quocTich}"></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>

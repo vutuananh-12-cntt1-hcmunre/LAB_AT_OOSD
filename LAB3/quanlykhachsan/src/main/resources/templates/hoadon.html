@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Hóa đơn</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        form {
+            width: 550px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #198754;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #146c43;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>Quản lý hóa đơn</h1>
+
+<form th:action="@{/hoa-don/them}"
+      th:object="${hoaDon}"
+      method="post">
+
+    <label>Số hóa đơn</label>
+
+    <input type="text"
+           th:field="*{soHoaDon}"
+           placeholder="Ví dụ: HD01"
+           required>
+
+
+    <label>Phiếu đặt phòng</label>
+
+    <select th:field="*{soPhieuDat}" required>
+
+        <option value="">
+            -- Chọn phiếu đặt phòng --
+        </option>
+
+        <option th:each="phieu : ${dsPhieuDatPhong}"
+                th:value="${phieu.soPhieuDat}"
+                th:text="${phieu.soPhieuDat + ' - Khách ' + phieu.maKhach}">
+        </option>
+
+    </select>
+
+
+    <label>Nhân viên lập hóa đơn</label>
+
+    <select th:field="*{maNV}" required>
+
+        <option value="">
+            -- Chọn nhân viên --
+        </option>
+
+        <option th:each="nv : ${dsNhanVien}"
+                th:value="${nv.maNV}"
+                th:text="${nv.maNV + ' - ' + nv.hoTen}">
+        </option>
+
+    </select>
+
+
+    <label>Ngày lập</label>
+
+    <input type="datetime-local"
+           th:field="*{ngayLap}"
+           required>
+
+
+    <label>Số ngày tính tiền</label>
+
+    <input type="number"
+           th:field="*{soNgayTinhTien}"
+           min="1"
+           required>
+
+
+    <label>Tiền phòng</label>
+
+    <input type="number"
+           th:field="*{tienPhong}"
+           min="0"
+           step="0.01"
+           required>
+
+
+    <label>Tiền dịch vụ</label>
+
+    <input type="number"
+           th:field="*{tienDichVu}"
+           min="0"
+           step="0.01"
+           required>
+
+
+    <label>Trạng thái</label>
+
+    <select th:field="*{trangThai}" required>
+
+        <option value="Chưa thanh toán">
+            Chưa thanh toán
+        </option>
+
+        <option value="Đã thanh toán">
+            Đã thanh toán
+        </option>
+
+    </select>
+
+
+    <button type="submit">
+        Thêm hóa đơn
+    </button>
+
+</form>
+
+
+<h2>Danh sách hóa đơn</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Số hóa đơn</th>
+            <th>Phiếu đặt</th>
+            <th>Ngày lập</th>
+            <th>Nhân viên</th>
+            <th>Số ngày</th>
+            <th>Tiền phòng</th>
+            <th>Tiền dịch vụ</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr th:each="hd : ${dsHoaDon}">
+
+            <td th:text="${hd.soHoaDon}"></td>
+
+            <td th:text="${hd.soPhieuDat}"></td>
+
+            <td th:text="${hd.ngayLap}"></td>
+
+            <td th:text="${hd.maNV}"></td>
+
+            <td th:text="${hd.soNgayTinhTien}"></td>
+
+            <td th:text="${hd.tienPhong}"></td>
+
+            <td th:text="${hd.tienDichVu}"></td>
+
+            <td th:text="${hd.tongTien}"></td>
+
+            <td th:text="${hd.trangThai}"></td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+</body>
+
+</html>

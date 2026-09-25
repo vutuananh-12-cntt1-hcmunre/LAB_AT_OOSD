@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Quản lý nhân viên</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+        }
+
+        input,
+        select {
+            padding: 7px;
+            width: 280px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 8px 20px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>QUẢN LÝ NHÂN VIÊN</h1>
+
+
+    <!-- FORM THÊM NHÂN VIÊN -->
+
+    <form
+        th:action="@{/nhan-vien/them}"
+        th:object="${nhanVien}"
+        method="post">
+
+
+        <div class="form-group">
+
+            <label>Mã nhân viên:</label>
+
+            <input
+                type="text"
+                th:field="*{maNV}"
+                placeholder="Ví dụ: NV04"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Họ tên:</label>
+
+            <input
+                type="text"
+                th:field="*{hoTen}"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Vai trò:</label>
+
+            <select
+                th:field="*{vaiTro}"
+                required>
+
+                <option value="">
+                    -- Chọn vai trò --
+                </option>
+
+                <option value="Quản lý">
+                    Quản lý
+                </option>
+
+                <option value="Lễ tân">
+                    Lễ tân
+                </option>
+
+                <option value="Nhân viên">
+                    Nhân viên
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Số điện thoại:</label>
+
+            <input
+                type="text"
+                th:field="*{soDienThoai}">
+
+        </div>
+
+
+        <button type="submit">
+            Thêm nhân viên
+        </button>
+
+    </form>
+
+
+    <!-- DANH SÁCH NHÂN VIÊN -->
+
+    <h2>Danh sách nhân viên</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Mã nhân viên</th>
+
+                <th>Họ tên</th>
+
+                <th>Vai trò</th>
+
+                <th>Số điện thoại</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr th:each="nv : ${dsNhanVien}">
+
+                <td th:text="${nv.maNV}"></td>
+
+                <td th:text="${nv.hoTen}"></td>
+
+                <td th:text="${nv.vaiTro}"></td>
+
+                <td th:text="${nv.soDienThoai}"></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>

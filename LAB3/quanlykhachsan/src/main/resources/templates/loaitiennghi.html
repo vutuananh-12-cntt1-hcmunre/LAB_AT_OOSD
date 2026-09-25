@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Quản lý loại tiện nghi</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+        }
+
+        input {
+            padding: 7px;
+            width: 250px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 8px 20px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 600px;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>QUẢN LÝ LOẠI TIỆN NGHI</h1>
+
+    <!-- FORM THÊM LOẠI TIỆN NGHI -->
+
+    <form
+        th:action="@{/loai-tien-nghi/them}"
+        th:object="${loaiTienNghi}"
+        method="post">
+
+        <div class="form-group">
+
+            <label>Mã loại tiện nghi:</label>
+
+            <input
+                type="text"
+                th:field="*{maLoaiTN}"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Tên loại tiện nghi:</label>
+
+            <input
+                type="text"
+                th:field="*{tenLoaiTN}"
+                required>
+
+        </div>
+
+
+        <button type="submit">
+            Thêm loại tiện nghi
+        </button>
+
+    </form>
+
+
+    <!-- DANH SÁCH -->
+
+    <h2>Danh sách loại tiện nghi</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Mã loại</th>
+
+                <th>Tên loại tiện nghi</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr th:each="loai : ${dsLoaiTienNghi}">
+
+                <td th:text="${loai.maLoaiTN}"></td>
+
+                <td th:text="${loai.tenLoaiTN}"></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>

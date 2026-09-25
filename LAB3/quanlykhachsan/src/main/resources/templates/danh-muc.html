@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Danh mục - Quản lý khách sạn</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background-color: #f2f2f2;
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .window {
+            width: 900px;
+
+            background-color: white;
+
+            border: 1px solid #888;
+
+            padding: 35px 40px 40px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+
+            color: #064a82;
+
+            font-size: 27px;
+
+            margin: 5px 0 30px;
+        }
+
+        .menu {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 30px;
+        }
+
+        .category {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            height: 80px;
+
+            text-decoration: none;
+
+            color: #111;
+
+            background: linear-gradient(
+                to bottom,
+                #fafafa,
+                #e5e5e5
+            );
+
+            border: 1px solid #888;
+
+            border-radius: 3px;
+
+            font-size: 19px;
+
+            cursor: pointer;
+        }
+
+        .category:hover {
+            background: linear-gradient(
+                to bottom,
+                #ffffff,
+                #dddddd
+            );
+        }
+
+        .category:last-child {
+            grid-column: 1 / 3;
+            width: 50%;
+            justify-self: center;
+        }
+
+        .back {
+            display: flex;
+
+            justify-content: center;
+        }
+
+        .back a {
+            width: 220px;
+
+            height: 50px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-decoration: none;
+
+            color: #111;
+
+            background: #eeeeee;
+
+            border: 1px solid #888;
+
+            border-radius: 3px;
+
+            font-size: 17px;
+        }
+
+        .back a:hover {
+            background: #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="window">
+
+    <h1>DANH MỤC</h1>
+
+    <div class="menu">
+
+        <a href="/khu-vuc" class="category">
+            Khu vực
+        </a>
+
+        <a href="/nhan-vien" class="category">
+            Nhân viên
+        </a>
+
+        <a href="/loai-tien-nghi" class="category">
+            Loại tiện nghi
+        </a>
+
+        <a href="/dich-vu" class="category">
+            Dịch vụ
+        </a>
+
+        <a href="/quy-dinh-den-bu" class="category">
+            Quy định đền bù
+        </a>
+
+    </div>
+
+    <div class="back">
+        <a href="/">
+            ← Quay lại
+        </a>
+    </div>
+
+</div>
+
+</body>
+
+</html>

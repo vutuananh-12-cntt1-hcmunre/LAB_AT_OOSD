@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Thanh toán</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        form {
+            width: 500px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #198754;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #146c43;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>Quản lý thanh toán</h1>
+
+
+<form th:action="@{/thanh-toan/them}"
+      th:object="${thanhToan}"
+      method="post">
+
+    <label>Mã thanh toán</label>
+
+    <input type="text"
+           th:field="*{maThanhToan}"
+           placeholder="Ví dụ: TT01"
+           required>
+
+
+    <label>Hóa đơn</label>
+
+    <select th:field="*{soHoaDon}" required>
+
+        <option value="">
+            -- Chọn hóa đơn --
+        </option>
+
+        <option th:each="hd : ${dsHoaDon}"
+                th:value="${hd.soHoaDon}"
+                th:text="${hd.soHoaDon + ' - Tổng tiền: ' + hd.tongTien}">
+        </option>
+
+    </select>
+
+
+    <label>Ngày thanh toán</label>
+
+    <input type="datetime-local"
+           th:field="*{ngayThanhToan}"
+           required>
+
+
+    <label>Hình thức thanh toán</label>
+
+    <select th:field="*{hinhThuc}" required>
+
+        <option value="">
+            -- Chọn hình thức --
+        </option>
+
+        <option value="Tiền mặt">
+            Tiền mặt
+        </option>
+
+        <option value="Chuyển khoản">
+            Chuyển khoản
+        </option>
+
+        <option value="Thẻ">
+            Thẻ
+        </option>
+
+        <option value="Ví điện tử">
+            Ví điện tử
+        </option>
+
+    </select>
+
+
+    <label>Số tiền</label>
+
+    <input type="number"
+           th:field="*{soTien}"
+           min="0.01"
+           step="0.01"
+           required>
+
+
+    <button type="submit">
+        Thêm thanh toán
+    </button>
+
+</form>
+
+
+<h2>Danh sách thanh toán</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Mã thanh toán</th>
+            <th>Số hóa đơn</th>
+            <th>Ngày thanh toán</th>
+            <th>Hình thức</th>
+            <th>Số tiền</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr th:each="tt : ${dsThanhToan}">
+
+            <td th:text="${tt.maThanhToan}"></td>
+
+            <td th:text="${tt.soHoaDon}"></td>
+
+            <td th:text="${tt.ngayThanhToan}"></td>
+
+            <td th:text="${tt.hinhThuc}"></td>
+
+            <td th:text="${tt.soTien}"></td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+</body>
+
+</html>

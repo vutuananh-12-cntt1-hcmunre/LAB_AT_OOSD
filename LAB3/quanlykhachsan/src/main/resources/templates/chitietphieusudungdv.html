@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Chi tiết phiếu sử dụng dịch vụ</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            width: 600px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #125aa0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Chi tiết phiếu sử dụng dịch vụ</h1>
+
+    <div class="form-container">
+
+        <h2>Thêm chi tiết</h2>
+
+        <form th:action="@{/chi-tiet-su-dung-dich-vu/them}"
+              th:object="${chiTiet}"
+              method="post">
+
+            <div class="form-group">
+
+                <label>Phiếu sử dụng dịch vụ</label>
+
+                <select th:field="*{soPhieuSDDV}"
+                        required>
+
+                    <option value="">
+                        -- Chọn phiếu sử dụng dịch vụ --
+                    </option>
+
+                    <option
+                        th:each="p : ${dsPhieuSuDungDV}"
+                        th:value="${p.soPhieuSDDV}"
+                        th:text="${p.soPhieuSDDV + ' - Phòng ' + p.soPhong}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Dịch vụ</label>
+
+                <select id="dichVu"
+                        th:field="*{maDV}"
+                        required>
+
+                    <option value=""
+                            data-don-gia="">
+
+                        -- Chọn dịch vụ --
+
+                    </option>
+
+                    <option
+                        th:each="dv : ${dsDichVu}"
+                        th:value="${dv.maDV}"
+                        th:data-don-gia="${dv.donGia}"
+                        th:text="${dv.maDV + ' - ' + dv.tenDV}">
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Đơn giá</label>
+
+                <input type="number"
+                       id="donGia"
+                       th:field="*{donGia}"
+                       min="0"
+                       step="0.01"
+                       readonly
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Số lượng</label>
+
+                <input type="number"
+                       th:field="*{soLuong}"
+                       min="1"
+                       required>
+
+            </div>
+
+
+            <button type="submit">
+                Thêm chi tiết
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <h2>Danh sách chi tiết sử dụng dịch vụ</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Phiếu sử dụng</th>
+
+                <th>Mã dịch vụ</th>
+
+                <th>Số lượng</th>
+
+                <th>Đơn giá</th>
+
+                <th>Thành tiền</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr th:each="ct : ${dsChiTiet}">
+
+                <td th:text="${ct.soPhieuSDDV}"></td>
+
+                <td th:text="${ct.maDV}"></td>
+
+                <td th:text="${ct.soLuong}"></td>
+
+                <td th:text="${ct.donGia}"></td>
+
+                <td th:text="${ct.thanhTien}"></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+
+    <script>
+
+        document
+            .getElementById("dichVu")
+            .addEventListener("change", function () {
+
+                const option =
+                    this.options[this.selectedIndex];
+
+                const donGia =
+                    option.getAttribute("data-don-gia");
+
+                document
+                    .getElementById("donGia")
+                    .value = donGia || "";
+
+            });
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Thống kê - Quản lý khách sạn</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background-color: #f2f2f2;
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .window {
+            width: 1100px;
+
+            min-height: 650px;
+
+            background-color: white;
+
+            border: 1px solid #888;
+
+            padding: 35px 40px 40px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+
+            color: #064a82;
+
+            font-size: 27px;
+
+            margin: 5px 0 30px;
+        }
+
+        /* Bộ lọc ngày */
+
+        .filter {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            margin-bottom: 30px;
+        }
+
+        .filter label {
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+        .filter input {
+            height: 38px;
+
+            padding: 5px 8px;
+
+            border: 1px solid #999;
+
+            border-radius: 3px;
+
+            font-size: 15px;
+        }
+
+        .filter button {
+            height: 40px;
+
+            padding: 0 25px;
+
+            background: #eeeeee;
+
+            border: 1px solid #888;
+
+            border-radius: 3px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+        .filter button:hover {
+            background: #dddddd;
+        }
+
+        /* Tiêu đề bảng */
+
+        .section-title {
+            font-size: 20px;
+
+            font-weight: bold;
+
+            color: #064a82;
+
+            margin: 25px 0 12px;
+        }
+
+        /* Bảng */
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin-bottom: 25px;
+        }
+
+        th,
+        td {
+            border: 1px solid #999;
+
+            padding: 11px 10px;
+
+            text-align: center;
+
+            font-size: 15px;
+        }
+
+        th {
+            background-color: #eeeeee;
+
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #ffffff;
+        }
+
+        .empty {
+            color: #777;
+
+            padding: 20px;
+        }
+
+        /* Quay lại */
+
+        .back {
+            display: flex;
+
+            justify-content: center;
+
+            margin-top: 30px;
+        }
+
+        .back a {
+            width: 220px;
+
+            height: 50px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-decoration: none;
+
+            color: #111;
+
+            background: #eeeeee;
+
+            border: 1px solid #888;
+
+            border-radius: 3px;
+
+            font-size: 17px;
+        }
+
+        .back a:hover {
+            background: #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="window">
+
+    <h1>THỐNG KÊ</h1>
+
+    <form class="filter" method="get" action="/thong-ke">
+
+        <label for="tuNgay">
+            Từ ngày:
+        </label>
+
+        <input
+            type="date"
+            id="tuNgay"
+            name="tuNgay"
+        >
+
+        <label for="denNgay">
+            Đến ngày:
+        </label>
+
+        <input
+            type="date"
+            id="denNgay"
+            name="denNgay"
+        >
+
+        <button type="submit">
+            Thống kê
+        </button>
+
+    </form>
+
+
+    <!-- Tổng hợp -->
+
+    <div class="section-title">
+        Tổng hợp
+    </div>
+
+    <table>
+
+        <thead>
+
+        <tr>
+            <th>Số phiếu đặt</th>
+            <th>Đang ở</th>
+            <th>Số hóa đơn</th>
+            <th>Doanh thu hóa đơn</th>
+            <th>Tổng đền bù</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr>
+            <td class="empty">Chưa có dữ liệu</td>
+            <td class="empty">Chưa có dữ liệu</td>
+            <td class="empty">Chưa có dữ liệu</td>
+            <td class="empty">Chưa có dữ liệu</td>
+            <td class="empty">Chưa có dữ liệu</td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+
+    <!-- Dịch vụ -->
+
+    <div class="section-title">
+        Thống kê dịch vụ
+    </div>
+
+    <table>
+
+        <thead>
+
+        <tr>
+            <th>Mã dịch vụ</th>
+            <th>Tên dịch vụ</th>
+            <th>Tổng số lượng</th>
+            <th>Tổng tiền</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr>
+            <td colspan="4" class="empty">
+                Chưa có dữ liệu
+            </td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+
+    <div class="back">
+
+        <a href="/">
+            ← Quay lại
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

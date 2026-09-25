@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết phiếu đền bù</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        form {
+            width: 500px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #198754;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #146c43;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Chi tiết phiếu đền bù</h1>
+
+<form th:action="@{/chi-tiet-phieu-den-bu/them}"
+      th:object="${chiTietPhieuDenBu}"
+      method="post">
+
+    <label>Phiếu đền bù</label>
+
+    <select th:field="*{soPhieuDenBu}" required>
+        <option value="">-- Chọn phiếu đền bù --</option>
+
+        <option th:each="phieu : ${dsPhieuDenBu}"
+                th:value="${phieu.soPhieuDenBu}"
+                th:text="${phieu.soPhieuDenBu + ' - Phòng ' + phieu.soPhong}">
+        </option>
+    </select>
+
+
+    <label>Tiện nghi</label>
+
+    <select th:field="*{maTienNghi}" required>
+        <option value="">-- Chọn tiện nghi --</option>
+
+        <option th:each="tn : ${dsTienNghi}"
+                th:value="${tn.maTienNghi}"
+                th:text="${tn.maTienNghi + ' - Loại ' + tn.maLoaiTN}">
+        </option>
+    </select>
+
+
+    <label>Mức độ thiệt hại</label>
+
+    <input type="text"
+           th:field="*{mucDoThietHai}"
+           placeholder="Ví dụ: Nhẹ, Trung bình, Nặng"
+           required>
+
+
+    <label>Số tiền đền bù</label>
+
+    <input type="number"
+           th:field="*{soTien}"
+           min="0"
+           step="0.01"
+           required>
+
+
+    <button type="submit">
+        Thêm chi tiết đền bù
+    </button>
+
+</form>
+
+
+<h2>Danh sách chi tiết đền bù</h2>
+
+<table>
+
+    <thead>
+        <tr>
+            <th>Số phiếu đền bù</th>
+            <th>Mã tiện nghi</th>
+            <th>Mức độ thiệt hại</th>
+            <th>Số tiền</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr th:each="ct : ${dsChiTietPhieuDenBu}">
+
+            <td th:text="${ct.soPhieuDenBu}"></td>
+
+            <td th:text="${ct.maTienNghi}"></td>
+
+            <td th:text="${ct.mucDoThietHai}"></td>
+
+            <td th:text="${ct.soTien}"></td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+</body>
+</html>

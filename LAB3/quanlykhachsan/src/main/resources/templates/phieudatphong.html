@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Phiếu đặt phòng</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 550px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Quản lý phiếu đặt phòng</h1>
+
+    <form th:action="@{/dat-phong/them}"
+          th:object="${phieuDatPhong}"
+          method="post">
+
+        <label>Số phiếu đặt</label>
+        <input type="text"
+               th:field="*{soPhieuDat}"
+               placeholder="Nhập số phiếu đặt">
+
+        <label>Khách hàng</label>
+        <select th:field="*{maKhach}">
+
+            <option value="">
+                -- Chọn khách hàng --
+            </option>
+
+            <option th:each="kh : ${dsKhachHang}"
+                    th:value="${kh.maKhach}"
+                    th:text="${kh.maKhach + ' - ' + kh.hoTen}">
+            </option>
+
+        </select>
+
+        <label>Nhân viên lễ tân</label>
+        <select th:field="*{maNVLeTan}">
+
+            <option value="">
+                -- Chọn nhân viên --
+            </option>
+
+            <option th:each="nv : ${dsNhanVien}"
+                    th:value="${nv.maNV}"
+                    th:text="${nv.maNV + ' - ' + nv.hoTen}">
+            </option>
+
+        </select>
+
+        <label>Ngày nhận</label>
+        <input type="date"
+               th:field="*{ngayNhan}">
+
+        <label>Ngày trả dự kiến</label>
+        <input type="date"
+               th:field="*{ngayTraDuKien}">
+
+        <label>Tiền cọc</label>
+        <input type="number"
+               th:field="*{tienCoc}"
+               min="0"
+               step="1000"
+               value="0">
+
+        <label>Kênh đặt</label>
+        <select th:field="*{kenhDat}">
+
+            <option value="">
+                -- Chọn kênh đặt --
+            </option>
+
+            <option value="Điện thoại">
+                Điện thoại
+            </option>
+
+            <option value="Website">
+                Website
+            </option>
+
+            <option value="Trực tiếp">
+                Trực tiếp
+            </option>
+
+        </select>
+
+        <label>Trạng thái</label>
+        <select th:field="*{trangThai}">
+
+            <option value="Đã đặt">
+                Đã đặt
+            </option>
+
+            <option value="Đang ở">
+                Đang ở
+            </option>
+
+            <option value="Đã trả">
+                Đã trả
+            </option>
+
+            <option value="No-show">
+                No-show
+            </option>
+
+            <option value="Hủy">
+                Hủy
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Thêm phiếu đặt phòng
+        </button>
+
+    </form>
+
+    <h2>Danh sách phiếu đặt phòng</h2>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Số phiếu</th>
+                <th>Mã khách</th>
+                <th>Mã lễ tân</th>
+                <th>Ngày lập</th>
+                <th>Ngày nhận</th>
+                <th>Ngày trả dự kiến</th>
+                <th>Tiền cọc</th>
+                <th>Kênh đặt</th>
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr th:each="p : ${dsPhieuDatPhong}">
+
+                <td th:text="${p.soPhieuDat}"></td>
+
+                <td th:text="${p.maKhach}"></td>
+
+                <td th:text="${p.maNVLeTan}"></td>
+
+                <td th:text="${p.ngayLap}"></td>
+
+                <td th:text="${p.ngayNhan}"></td>
+
+                <td th:text="${p.ngayTraDuKien}"></td>
+
+                <td th:text="${p.tienCoc}"></td>
+
+                <td th:text="${p.kenhDat}"></td>
+
+                <td th:text="${p.trangThai}"></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>
