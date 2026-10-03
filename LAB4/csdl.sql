@@ -1,0 +1,211 @@
+﻿CREATE DATABASE E_SHOPPING;
+GO
+
+USE E_SHOPPING;
+GO
+
+CREATE TABLE KHACH_HANG (
+    MaKH VARCHAR(10) PRIMARY KEY,
+    HoTen NVARCHAR(100) NOT NULL,
+    NgaySinh DATE,
+    CCCD_Passport VARCHAR(30),
+    DiaChi NVARCHAR(255),
+    DienThoai VARCHAR(20),
+    Username VARCHAR(50) NOT NULL UNIQUE,
+    MatKhau VARCHAR(255) NOT NULL,
+    Email VARCHAR(100) UNIQUE
+);
+GO
+
+CREATE TABLE GIO_HANG (
+    MaGioHang VARCHAR(10) PRIMARY KEY,
+    MaKH VARCHAR(10) NOT NULL,
+    NgayTao DATETIME DEFAULT GETDATE(),
+
+    CONSTRAINT FK_GIO_HANG_KHACH_HANG
+    FOREIGN KEY (MaKH) REFERENCES KHACH_HANG(MaKH)
+);
+GO
+
+CREATE TABLE CHI_TIET_GIO_HANG (
+    MaGioHang VARCHAR(10),
+    MaSP VARCHAR(20),
+    SoLuong INT NOT NULL,
+    DonGia DECIMAL(18,2) NOT NULL,
+
+    CONSTRAINT PK_CHI_TIET_GIO_HANG
+    PRIMARY KEY (MaGioHang, MaSP),
+
+    CONSTRAINT FK_CTGH_GIO_HANG
+    FOREIGN KEY (MaGioHang) REFERENCES GIO_HANG(MaGioHang),
+
+    CONSTRAINT CK_CTGH_SOLUONG
+    CHECK (SoLuong > 0),
+
+    CONSTRAINT CK_CTGH_DONGIA
+    CHECK (DonGia >= 0)
+);
+GO
+
+CREATE TABLE NGUOI_NHAN (
+    MaNguoiNhan VARCHAR(10) PRIMARY KEY,
+    HoTen NVARCHAR(100) NOT NULL,
+    DiaChi NVARCHAR(255) NOT NULL,
+    DienThoai VARCHAR(20) NOT NULL
+);
+GO
+
+CREATE TABLE GIAO_HANG (
+    MaGiaoHang VARCHAR(10) PRIMARY KEY,
+    LoaiGiaoHang NVARCHAR(50) NOT NULL,
+    KhuVuc NVARCHAR(100),
+    PhiGiaoHang DECIMAL(18,2) DEFAULT 0,
+
+    CONSTRAINT CK_GIAO_HANG_LOAI
+    CHECK (
+        LoaiGiaoHang IN (
+            N'Thường',
+            N'Chuyển phát nhanh',
+            N'Chuyển phát nhanh trong ngày'
+        )
+    ),
+
+    CONSTRAINT CK_GIAO_HANG_PHI
+    CHECK (PhiGiaoHang >= 0)
+);
+GO
+
+CREATE TABLE DON_HANG (
+    MaDH VARCHAR(10) PRIMARY KEY,
+    MaKH VARCHAR(10) NOT NULL,
+    MaNguoiNhan VARCHAR(10) NOT NULL,
+    MaGiaoHang VARCHAR(10) NOT NULL,
+    ThoiDiemDat DATETIME DEFAULT GETDATE(),
+    TongTienHang DECIMAL(18,2) NOT NULL,
+    PhiGiaoHang DECIMAL(18,2) DEFAULT 0,
+    TongThanhToan DECIMAL(18,2) NOT NULL,
+    TrangThai NVARCHAR(50) DEFAULT N'Đã đặt hàng',
+
+    CONSTRAINT FK_DON_HANG_KHACH_HANG
+    FOREIGN KEY (MaKH) REFERENCES KHACH_HANG(MaKH),
+
+    CONSTRAINT FK_DON_HANG_NGUOI_NHAN
+    FOREIGN KEY (MaNguoiNhan) REFERENCES NGUOI_NHAN(MaNguoiNhan),
+
+    CONSTRAINT FK_DON_HANG_GIAO_HANG
+    FOREIGN KEY (MaGiaoHang) REFERENCES GIAO_HANG(MaGiaoHang),
+
+    CONSTRAINT CK_DON_HANG_TIEN
+    CHECK (
+        TongTienHang >= 0
+        AND PhiGiaoHang >= 0
+        AND TongThanhToan >= 0
+    )
+);
+GO
+
+CREATE TABLE CHI_TIET_DON_HANG (
+    MaDH VARCHAR(10),
+    MaSP VARCHAR(20),
+    SoLuong INT NOT NULL,
+    DonGia DECIMAL(18,2) NOT NULL,
+    ThanhTien AS (SoLuong * DonGia),
+
+    CONSTRAINT PK_CHI_TIET_DON_HANG
+    PRIMARY KEY (MaDH, MaSP),
+
+    CONSTRAINT FK_CTDH_DON_HANG
+    FOREIGN KEY (MaDH) REFERENCES DON_HANG(MaDH),
+
+    CONSTRAINT CK_CTDH_SOLUONG
+    CHECK (SoLuong > 0),
+
+    CONSTRAINT CK_CTDH_DONGIA
+    CHECK (DonGia >= 0)
+);
+GO
+
+CREATE TABLE THANH_TOAN (
+    MaThanhToan VARCHAR(10) PRIMARY KEY,
+    MaDH VARCHAR(10) NOT NULL UNIQUE,
+    LoaiThe VARCHAR(20) NOT NULL,
+    SoThe VARCHAR(20) NOT NULL,
+    NgayHetHan DATE NOT NULL,
+    ChuThe NVARCHAR(100) NOT NULL,
+    MaAnNinh VARCHAR(4) NOT NULL,
+    TrangThai NVARCHAR(50) DEFAULT N'Thành công',
+    ThoiGianThanhToan DATETIME DEFAULT GETDATE(),
+
+    CONSTRAINT FK_THANH_TOAN_DON_HANG
+    FOREIGN KEY (MaDH) REFERENCES DON_HANG(MaDH),
+
+    CONSTRAINT CK_THANH_TOAN_LOAI_THE
+    CHECK (
+        LoaiThe IN (
+            'Visa',
+            'Mastercard',
+            'Discover',
+            'AmEx'
+        )
+    ),
+
+    CONSTRAINT CK_THANH_TOAN_TRANG_THAI
+    CHECK (
+        TrangThai IN (
+            N'Thành công',
+            N'Thất bại'
+        )
+    )
+);
+GO
+
+INSERT INTO KHACH_HANG
+VALUES
+(
+    'KH001',
+    N'Nguyễn Văn An',
+    '2002-05-10',
+    '079202001234',
+    N'Biên Hòa, Đồng Nai',
+    '0901234567',
+    'nguyenvanan',
+    '123456',
+    'an@gmail.com'
+);
+GO
+
+INSERT INTO NGUOI_NHAN
+VALUES
+(
+    'NN001',
+    N'Trần Thị B',
+    N'Biên Hòa, Đồng Nai',
+    '0912345678'
+);
+GO
+
+INSERT INTO GIAO_HANG
+VALUES
+('GH001', N'Thường', N'Đồng Nai', 30000),
+('GH002', N'Chuyển phát nhanh', N'TP.HCM', 50000),
+('GH003', N'Chuyển phát nhanh trong ngày', N'TP.HCM', 80000);
+GO
+
+INSERT INTO GIO_HANG
+VALUES
+('GIO001', 'KH001', GETDATE());
+GO
+
+INSERT INTO CHI_TIET_GIO_HANG
+VALUES
+('GIO001', 'SP001', 2, 500000);
+GO
+
+SELECT * FROM KHACH_HANG;
+SELECT * FROM GIO_HANG;
+SELECT * FROM CHI_TIET_GIO_HANG;
+SELECT * FROM NGUOI_NHAN;
+SELECT * FROM GIAO_HANG;
+SELECT * FROM DON_HANG;
+SELECT * FROM CHI_TIET_DON_HANG;
+SELECT * FROM THANH_TOAN;
