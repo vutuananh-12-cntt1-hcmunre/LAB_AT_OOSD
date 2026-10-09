@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh mục - Phương tiện</title>
+    <!-- Nhúng Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e2e8f0;
+            font-family: Arial, sans-serif;
+        }
+        /* Khung cửa sổ giả lập ứng dụng desktop */
+        .desktop-window {
+            max-width: 950px;
+            margin: 30px auto;
+            background-color: #f1f1f1;
+            border: 1px solid #b0b0b0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        /* Thanh tiêu đề cửa sổ */
+        .window-header {
+            background-color: #e1e1e1;
+            padding: 8px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #dcdcdc;
+            font-size: 14px;
+            color: #333;
+        }
+        .window-controls span {
+            display: inline-block;
+            width: 14px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            color: #555;
+            margin-left: 12px;
+        }
+        /* Nội dung form */
+        .window-body {
+            padding: 20px 30px;
+            background-color: #f0f0f0;
+            min-height: 560px;
+        }
+        /* Hệ thống Tab kiểu Windows Forms */
+        .nav-tabs {
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 0;
+        }
+        .nav-tabs .nav-link {
+            border: 1px solid transparent;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            color: #333;
+            background-color: #e5e5e5;
+            padding: 8px 20px;
+            font-size: 14px;
+            margin-right: 2px;
+            text-decoration: none;
+        }
+        .nav-tabs .nav-link.active {
+            color: #000;
+            background-color: #ffffff;
+            border-color: #ccc #ccc #ffffff #ccc;
+            font-weight: 500;
+        }
+        /* Khung chứa nội dung tab */
+        .tab-content-box {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-top: none;
+            padding: 20px;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        /* Bảng dữ liệu */
+        .table-custom {
+            font-size: 14px;
+            border-color: #dcdcdc;
+        }
+        .table-custom th {
+            background-color: #f8f9fa;
+            color: #333;
+            font-weight: normal;
+            border-bottom: 2px solid #dcdcdc;
+        }
+        .table-custom td {
+            vertical-align: middle;
+        }
+        /* Input & Button kiểu Windows */
+        .form-control-win {
+            border: 1px solid #adadad;
+            border-radius: 2px;
+            font-size: 14px;
+            padding: 5px 10px;
+        }
+        .btn-win {
+            background-color: #e1e1e1;
+            border: 1px solid #adadad;
+            color: #333;
+            font-size: 14px;
+            padding: 6px 20px;
+            border-radius: 2px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-win:hover {
+            background-color: #d5d5d5;
+            border-color: #7b7b7b;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="desktop-window">
+        <!-- Thanh tiêu đề cửa sổ -->
+        <div class="window-header">
+            <span>Danh mục</span>
+            <div class="window-controls">
+                <span>&#96;</span>
+                <span>&#9633;</span>
+                <span>&#10005;</span>
+            </div>
+        </div>
+
+        <!-- Nội dung bên trong -->
+        <div class="window-body">
+            
+            <!-- Các Tab chuyển đổi -->
+            <ul class="nav nav-tabs" id="categoryTab" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" type="button">Phương tiện</button>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/danh-muc/diem-ban-ve">Điểm bán vé</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/danh-muc/huong-dan-vien">Hướng dẫn viên</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/danh-muc/diem-tham-quan">Điểm tham quan</a>
+                </li>
+            </ul>
+
+            <!-- Nội dung Tab Phương tiện -->
+            <div class="tab-content-box">
+                <div class="tab-pane fade show active">
+                    
+                    <!-- Bảng danh sách phương tiện -->
+                    <div class="table-responsive mb-4" style="height: 250px; overflow-y: auto; border: 1px solid #dcdcdc;">
+                        <table class="table table-custom table-bordered mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 150px;">MaPT</th>
+                                    <th>TenPT</th>
+                                    <th>GhiChu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-primary">
+                                    <td>&#9658; PT02</td>
+                                    <td>Máy bay</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>PT03</td>
+                                    <td>Tàu hỏa</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>PT04</td>
+                                    <td>Tàu thủy</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>PT01</td>
+                                    <td>Xe du lịch</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Form nhập liệu thêm phương tiện -->
+                    <form action="/danh-muc/phuong-tien/save" method="post">
+                        <div class="row align-items-center mb-3">
+                            <div class="col-md-1 text-end fw-bold" style="font-size: 14px;">Mã PT:</div>
+                            <div class="col-md-4">
+                                <input type="text" name="maPT" value="PT05" class="form-control form-control-win">
+                            </div>
+                            <div class="col-md-2 text-end fw-bold" style="font-size: 14px;">Tên PT:</div>
+                            <div class="col-md-5">
+                                <input type="text" name="tenPT" value="Xe khách giường nằm" class="form-control form-control-win">
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center mb-4">
+                            <div class="col-md-1 text-end fw-bold" style="font-size: 14px;">Ghi chú:</div>
+                            <div class="col-md-7">
+                                <input type="text" name="ghiChu" class="form-control form-control-win">
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <button type="submit" class="btn btn-win px-4">Thêm</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- Nút Đóng quay về trang chủ -->
+            <div class="text-end mt-4">
+                <a href="/" class="btn btn-win px-4">Đóng</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

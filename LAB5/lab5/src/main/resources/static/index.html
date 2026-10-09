@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý công ty du lịch Văn Hóa Việt</title>
+    <!-- Nhúng Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e2e8f0;
+            font-family: Arial, sans-serif;
+        }
+        /* Tạo khung cửa sổ giả lập app desktop */
+        .desktop-window {
+            max-width: 850px;
+            margin: 40px auto;
+            background-color: #f1f1f1;
+            border: 1px solid #b0b0b0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        /* Thanh tiêu đề giả lập cửa sổ Windows */
+        .window-header {
+            background-color: #e1e1e1;
+            padding: 8px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #dcdcdc;
+            font-size: 14px;
+            color: #333;
+        }
+        .window-controls span {
+            display: inline-block;
+            width: 14px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            color: #555;
+            margin-left: 12px;
+        }
+        .window-controls span:hover {
+            color: #000;
+        }
+        /* Nội dung form bên trong */
+        .window-body {
+            padding: 40px 50px;
+            background-color: #f0f0f0;
+            min-height: 520px;
+        }
+        .app-title {
+            color: #0b2545;
+            font-weight: bold;
+            font-size: 22px;
+            text-align: center;
+            margin-bottom: 35px;
+            letter-spacing: 0.5px;
+        }
+        /* Style cho các nút bấm dạng lưới */
+        .menu-btn {
+            background-color: #e2e2e2;
+            border: 1px solid #cccccc;
+            color: #222;
+            font-weight: 500;
+            padding: 14px 20px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            text-align: center;
+            width: 100%;
+        }
+        .menu-btn:hover {
+            background-color: #d4d4d4;
+            border-color: #adadad;
+            color: #000;
+        }
+        .btn-thoat {
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="desktop-window">
+        <!-- Thanh tiêu đề cửa sổ -->
+        <div class="window-header">
+            <span>Quản lý công ty du lịch Văn Hóa Việt</span>
+            <div class="window-controls">
+                <span>&#96;</span> <!-- Thu nhỏ -->
+                <span>&#9633;</span> <!-- Phóng to -->
+                <span>&#10005;</span> <!-- Đóng -->
+            </div>
+        </div>
+
+        <!-- Nội dung chính (FrmMain) -->
+        <div class="window-body">
+            <h2 class="app-title">CÔNG TY DU LỊCH VĂN HÓA VIỆT</h2>
+
+            <!-- Lưới các nút chức năng -->
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <a href="/danh-muc" class="btn menu-btn">Danh mục</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="/tour-hanh-trinh" class="btn menu-btn">Tour - hành trình</a>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <a href="/lich-chuyen-le" class="btn menu-btn">Lịch chuyến khách lẻ</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="/dang-ky-le" class="btn menu-btn">Đăng ký khách lẻ</a>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <a href="/dang-ky-doan" class="btn menu-btn">Đăng ký theo đoàn</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="/phan-cong" class="btn menu-btn">Phân công hướng dẫn viên</a>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <a href="/ket-thuc-tour" class="btn menu-btn">Kết thúc tour - khảo sát</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="/luong-huong-dan-vien" class="btn menu-btn">Lương - thống kê</a>
+                </div>
+            </div>
+
+            <!-- Nút Thoát nằm giữa ở dưới cùng -->
+            <div class="text-center">
+                <a href="/logout" class="btn menu-btn btn-thoat">Thoát</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
