@@ -1,0 +1,126 @@
+
+@startuml
+left to right direction
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam roundcorner 10
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+
+skinparam class {
+    BackgroundColor #EAF2F8
+    BorderColor #2874A6
+    ArrowColor #2874A6
+}
+
+title CLASS DIAGRAM - HỆ THỐNG QUẢN LÝ BỆNH VIỆN
+
+class BenhNhan {
+    - maBenhNhan: String <<PK>>
+    - hoTen: String
+    - diaChi: String
+    - ngaySinh: Date
+    - soDienThoai: String
+    - anh3x4: String
+}
+
+class HoSoBenhAn {
+    - maHoSo: String <<PK>>
+    - ngayLap: Date
+    - ngayHetHanPhi: Date
+    - trangThai: String
+}
+
+class DangKyKham {
+    - maDangKy: String <<PK>>
+    - ngayDangKy: DateTime
+    - lyDoKham: String
+    - trangThai: String
+}
+
+class PhieuKham {
+    - maPhieuKham: String <<PK>>
+    - ngayGioKham: DateTime
+    - trieuChung: String
+    - nhietDo: Float
+    - huyetAp: String
+    - ketLuan: String
+}
+
+class BacSi {
+    - maBacSi: String <<PK>>
+    - hoTen: String
+    - soDienThoai: String
+}
+
+class Khoa {
+    - maKhoa: String <<PK>>
+    - tenKhoa: String
+}
+
+class YeuCauXetNghiem {
+    - maYeuCau: String <<PK>>
+    - loaiXetNghiem: String
+    - ngayChiDinh: DateTime
+    - trangThai: String
+}
+
+class KetQuaXetNghiem {
+    - maKetQua: String <<PK>>
+    - ngayThucHien: DateTime
+    - ketQua: String
+    - ghiChu: String
+}
+
+class ToaThuoc {
+    - maToaThuoc: String <<PK>>
+    - ngayKeToa: DateTime
+    - loiDan: String
+}
+
+class ChiTietToaThuoc {
+    - maChiTiet: String <<PK>>
+    - lieuLuong: String
+    - cachDung: String
+    - soLuong: Int
+    - soNgayDung: Int
+}
+
+class Thuoc {
+    - maThuoc: String <<PK>>
+    - tenThuoc: String
+    - donViTinh: String
+    - moTa: String
+}
+
+class ThanhToan {
+    - maThanhToan: String <<PK>>
+    - ngayThanhToan: DateTime
+    - soTien: Decimal
+    - loaiThanhToan: String
+    - trangThai: String
+}
+
+BenhNhan "1" -- "1" HoSoBenhAn : sở hữu
+BenhNhan "1" -- "0..*" DangKyKham : đăng ký
+HoSoBenhAn "1" -- "0..*" PhieuKham : lưu lịch sử
+DangKyKham "1" -- "0..1" PhieuKham : tạo khi tiếp nhận
+
+BacSi "1" -- "0..*" PhieuKham : thực hiện
+Khoa "1" -- "0..*" BacSi : phân công
+Khoa "1" -- "0..*" PhieuKham : tiếp nhận khám
+
+PhieuKham "1" -- "0..*" YeuCauXetNghiem : chỉ định
+YeuCauXetNghiem "1" -- "0..1" KetQuaXetNghiem : có kết quả
+
+PhieuKham "1" -- "0..1" ToaThuoc : kê toa
+ToaThuoc "1" *-- "1..*" ChiTietToaThuoc : gồm
+Thuoc "1" -- "0..*" ChiTietToaThuoc : được kê
+
+HoSoBenhAn "1" -- "0..*" ThanhToan : thanh toán phí hồ sơ
+PhieuKham "1" -- "0..*" ThanhToan : thanh toán viện phí
+
+@enduml

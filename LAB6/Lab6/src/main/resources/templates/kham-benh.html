@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khám bệnh và lập toa thuốc</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: linear-gradient(120deg, #145da0, #2389c9);
+            color: white;
+            padding: 25px 40px;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 25px;
+        }
+
+        header p {
+            margin: 0;
+            opacity: .9;
+        }
+
+        nav {
+            background: white;
+            padding: 16px 40px;
+            box-shadow: 0 2px 8px #0000000d;
+        }
+
+        nav a {
+            display: inline-block;
+            margin-right: 25px;
+            text-decoration: none;
+            color: #1769aa;
+            font-weight: 600;
+        }
+
+        nav a.active {
+            color: #0f766e;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #0000000b;
+            margin-bottom: 22px;
+        }
+
+        .title {
+            margin: 0;
+            color: #1769aa;
+            font-size: 23px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin: 8px 0 25px;
+        }
+
+        .section-title {
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 17px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            background: white;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 85px;
+            resize: vertical;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #2389c9;
+            box-shadow: 0 0 0 3px #2389c91c;
+        }
+
+        .medicine {
+            padding: 20px;
+            margin-bottom: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .medicine h4 {
+            margin: 0 0 18px;
+            color: #1769aa;
+        }
+
+        .hint {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 12px 22px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #1769aa;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #12558a;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 13px 15px;
+            border-radius: 7px;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+            padding: 25px;
+        }
+
+        @media (max-width: 650px) {
+            header {
+                padding: 22px;
+            }
+
+            nav {
+                padding: 15px 22px;
+            }
+
+            nav a {
+                margin: 5px 15px 5px 0;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>HỆ THỐNG QUẢN LÝ BỆNH VIỆN</h1>
+    <p>Quản lý khám bệnh, xét nghiệm và toa thuốc</p>
+</header>
+
+<nav>
+    <a href="/dang-ky-benh-nhan">
+        Đăng ký bệnh nhân
+    </a>
+    <a class="active" href="/kham-benh">
+        Khám bệnh và toa thuốc
+    </a>
+</nav>
+
+<main class="container">
+
+    <section class="card">
+        <h2 class="title">Lập toa thuốc</h2>
+        <p class="subtitle">
+            Nhập mã phiếu khám và thông tin toa thuốc.
+        </p>
+
+        <div class="message" th:if="${param.success}">
+            Lưu toa thuốc thành công!
+        </div>
+
+        <form method="post" action="/kham-benh/luu-toa">
+
+            <h3 class="section-title">Thông tin phiếu khám</h3>
+
+            <div class="grid">
+                <div class="field">
+                    <label for="maPhieuKham">Mã phiếu khám *</label>
+                    <input id="maPhieuKham"
+                           type="number"
+                           name="maPhieuKham"
+                           min="1"
+                           placeholder="Nhập mã phiếu khám"
+                           required>
+                    <span class="hint">
+                        Phải là mã phiếu khám đã có trong database.
+                    </span>
+                </div>
+
+                <div class="field">
+                    <label for="loiDan">Lời dặn của bác sĩ</label>
+                    <input id="loiDan"
+                           type="text"
+                           name="loiDan"
+                           maxlength="500"
+                           placeholder="Nhập lời dặn">
+                </div>
+            </div>
+
+            <h3 class="section-title">Danh sách thuốc</h3>
+
+            <div th:each="i : ${#numbers.sequence(1, 3)}"
+                 class="medicine">
+
+                <h4>
+                    Thuốc <span th:text="${i}"></span>
+                </h4>
+
+                <div class="grid">
+
+                    <div class="field full">
+                        <label>Chọn thuốc</label>
+
+                        <select th:name="'maThuoc' + ${i}">
+                            <option value="">-- Không chọn thuốc --</option>
+
+                            <option th:each="thuoc : ${danhSachThuoc}"
+                                    th:value="${thuoc['MaThuoc']}"
+                                    th:text="${thuoc['TenThuoc']}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Liều lượng</label>
+                        <input type="text"
+                               th:name="'lieuLuong' + ${i}"
+                               placeholder="Nhập liều lượng">
+                    </div>
+
+                    <div class="field">
+                        <label>Cách dùng</label>
+                        <input type="text"
+                               th:name="'cachDung' + ${i}"
+                               placeholder="Nhập cách dùng">
+                    </div>
+
+                    <div class="field">
+                        <label>Số lượng</label>
+                        <input type="number"
+                               th:name="'soLuong' + ${i}"
+                               min="1"
+                               placeholder="Nhập số lượng">
+                    </div>
+
+                    <div class="field">
+                        <label>Số ngày dùng</label>
+                        <input type="number"
+                               th:name="'soNgayDung' + ${i}"
+                               min="1"
+                               placeholder="Nhập số ngày">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button type="submit" class="btn-primary">
+                    Lưu toa thuốc
+                </button>
+
+                <button type="reset" class="btn-secondary">
+                    Làm mới
+                </button>
+            </div>
+
+        </form>
+    </section>
+
+</main>
+
+<footer>
+    Hệ thống quản lý bệnh viện — Quản lý khám và điều trị
+</footer>
+
+</body>
+</html>
