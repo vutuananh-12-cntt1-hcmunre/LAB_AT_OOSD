@@ -1,0 +1,118 @@
+@startuml
+left to right direction
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam nodesep 40
+skinparam ranksep 50
+hide methods
+
+class NhanVien {
+  + maNV: String
+  + hoTen: String
+  + ngaySinh: Date
+  + gioiTinh: String
+  + diaChi: String
+  + soDienThoai: String
+  + email: String
+}
+
+class HoSoBaoHiem {
+  + maHoSo: int
+  + loaiBaoHiem: String
+  + ngayBatDau: Date
+  + ngayKetThuc: Date
+}
+
+class TuyenDung {
+  + maTuyenDung: int
+  + viTri: String
+  + ngayDang: Date
+  + hanNop: Date
+  + trangThai: String
+}
+
+class HoSoUngVien {
+  + maUngVien: int
+  + hoTen: String
+  + email: String
+  + soDienThoai: String
+  + ketQua: String
+}
+
+class HopDongLaoDong {
+  + maHopDong: int
+  + ngayKy: Date
+  + ngayHetHan: Date
+  + loaiHopDong: String
+  + mucLuong: double
+}
+
+class QuyetDinhLuong {
+  + maQuyetDinhLuong: int
+  + mucLuong: double
+  + ngayApDung: Date
+}
+
+class QuyetDinhChucVu {
+  + maQuyetDinhChucVu: int
+  + chucVu: String
+  + ngayApDung: Date
+}
+
+class KhenThuongKyLuat {
+  + maQuyetDinh: int
+  + loaiQuyetDinh: String
+  + noiDung: String
+  + ngayQuyetDinh: Date
+}
+
+class LichLamViec {
+  + maLich: int
+  + ngayLam: Date
+  + caLam: String
+  + gioBatDau: Time
+  + gioKetThuc: Time
+}
+
+class ChamCong {
+  + maChamCong: int
+  + ngayChamCong: Date
+  + gioVao: Time
+  + gioRa: Time
+  + trangThai: String
+}
+
+class BangLuong {
+  + maBangLuong: int
+  + thang: int
+  + nam: int
+  + tongLuong: double
+  + ngayLap: Date
+}
+
+class PhieuThuChi {
+  + maPhieu: int
+  + loaiPhieu: String
+  + noiDung: String
+  + soTien: double
+  + ngayLap: Date
+}
+
+NhanVien "1" -- "0..*" HoSoBaoHiem
+TuyenDung "1" -- "0..*" HoSoUngVien
+HoSoUngVien "0..1" -- "0..1" HopDongLaoDong
+
+NhanVien "1" -- "0..*" HopDongLaoDong
+NhanVien "1" -- "0..*" QuyetDinhLuong
+NhanVien "1" -- "0..*" QuyetDinhChucVu
+NhanVien "1" -- "0..*" KhenThuongKyLuat
+
+NhanVien "1" -- "0..*" LichLamViec
+NhanVien "1" -- "0..*" ChamCong
+NhanVien "1" -- "0..*" BangLuong
+
+LichLamViec "1" -- "0..*" ChamCong
+BangLuong "1" -- "0..*" PhieuThuChi
+
+@enduml
