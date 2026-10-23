@@ -1,6 +1,6 @@
 # HỆ THỐNG QUẢN LÝ NHÂN SỰ - CÔNG TY SƠN ĐÔNG Á
-> **Môn học:** Phân tích & Thiết kế Hướng đối tượng (OOAD) - HUTECH  
-> **Bài thực hành:** Bài 7 - Quản lý Nhân sự (Sơn Đông Á)  
+> **Môn học:** Phân tích & Thiết kế Hướng đối tượng (OOAD)
+> **Bài thực hành:** Bài 7 - Quản lý Nhân sự  
 > **Công nghệ sử dụng:** Java 17+, Spring Boot 3.x, Spring Data JPA, Thymeleaf, MS SQL Server, Bootstrap 5.
 
 ---
