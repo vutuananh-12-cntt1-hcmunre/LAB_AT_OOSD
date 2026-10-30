@@ -1,0 +1,61 @@
+@startuml
+title Hình P.22: Biểu đồ hoạt động chức năng Đặt phòng
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam activity {
+    BackgroundColor #FFF9CC
+    BorderColor #CC3333
+    FontColor black
+    DiamondBackgroundColor #FFF9CC
+    DiamondBorderColor #CC3333
+}
+skinparam ArrowColor #CC3333
+
+start
+
+repeat
+    :Nhap thong tin phieu dat:\nkhach, le tan,\nkenh dat, ngay nhan,\nngay tra, tien coc;
+
+    :Chon phong va so nguoi cho tung phong;
+
+    :Nhan "Lap phieu";
+
+    if (Thong tin hop le?) then (hop le)
+
+        :Kiem tra suc chua tung phong;
+
+        if (Vuot suc chua?) then (vuot suc chua)
+            :Huy giao dich (rollback),\nthong bao nguyen nhan tu choi;
+
+        else (khong vuot)
+
+            :Kiem tra lich chong lan voi\nphieu Da dat / Dang o;
+
+            if (Trung lich?) then (trung lich)
+                :Huy giao dich (rollback),\nthong bao nguyen nhan tu choi;
+
+            else (khong trung)
+                :Tao phieu dat phong\n(TrangThai = Da dat);
+
+                :Luu chi tiet dat phong\n(phong, so nguoi);
+
+                note right
+                  Cac buoc tao phieu, luu chi tiet va
+                  cap nhat phong nam trong 1 transaction
+                end note
+
+                :Cap nhat trang thai phong = Da dat;
+
+                :Thong bao lap phieu thanh cong;
+            endif
+        endif
+
+    else (thieu thong tin /\nngay tra < ngay nhan)
+        :Huy giao dich (rollback),\nthong bao nguyen nhan tu choi;
+    endif
+
+repeat while (Giao dich bi huy?) is (Nhap lai) not (Hoan tat)
+
+stop
+@enduml

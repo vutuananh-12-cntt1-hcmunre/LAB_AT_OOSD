@@ -1,0 +1,72 @@
+@startuml
+title Hình P.9: Biểu đồ tuần tự cho chức năng Đặt phòng
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam sequence {
+    ArrowColor #CC3333
+    LifeLineBorderColor #CC3333
+    LifeLineBackgroundColor white
+    ParticipantBorderColor #CC3333
+    ParticipantBackgroundColor #FFF9CC
+    ParticipantFontColor black
+    ActorBorderColor #CC3333
+    ActorFontColor black
+    BoxBorderColor #CC3333
+}
+
+actor "NV lễ tân" as NV
+boundary "FrmDatPhong" as Frm
+control "DatPhongService" as Service
+entity "Phong" as Phong
+entity "ChiTietDatPhong" as CTDP
+entity "PhieuDatPhong" as PDP
+
+NV -> Frm : Chon khach, le tan, kenh dat,\nngay nhan/tra, tien coc
+NV -> Frm : Chon phong va so nguoi
+
+Frm -> Frm : Them phong vao danh sach chon
+
+NV -> Frm : Nhan "Lap phieu"
+
+Frm -> Service : TaoDatPhong(so, maKhach, maNV,\nnhan, tra, coc, ds)
+
+activate Service
+
+Service -> Service : Kiem tra du lieu,\nngay tra >= ngay nhan
+
+Service -> Phong : laySucChua(soPhong)
+activate Phong
+Phong --> Service : SoNguoiToiDa
+deactivate Phong
+
+Service -> CTDP : kiemTraTrungLich(soPhong, nhan, tra)
+activate CTDP
+CTDP --> Service : ket qua kiem tra
+deactivate CTDP
+
+alt so nguoi <= suc chua va khong trung lich
+
+    Service -> PDP : themPhieuDat(..., "Da dat")
+    activate PDP
+    deactivate PDP
+
+    Service -> CTDP : themChiTiet(soPhieu, soPhong, soNguoi)
+    activate CTDP
+    deactivate CTDP
+
+    Service -> Phong : capNhatTrangThai("Da dat")
+
+    Service --> Frm : KetQuaXuLy.Ok
+
+else vuot suc chua hoac trung lich
+
+    Service --> Frm : KetQuaXuLy.Fail (rollback)
+
+end
+
+deactivate Service
+
+Frm --> NV : Thong bao ket qua lap phieu
+
+@enduml

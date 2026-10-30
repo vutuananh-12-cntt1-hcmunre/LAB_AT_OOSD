@@ -1,0 +1,42 @@
+@startuml
+title Hình P.7: Biểu đồ trạng thái lớp PhieuDatPhong
+
+skinparam backgroundColor white
+skinparam shadowing false
+
+skinparam state {
+    BackgroundColor #FFF9CC
+    BorderColor #CC3333
+    FontColor black
+}
+
+skinparam ArrowColor #CC3333
+
+[*] --> DaDat : TaoDatPhong()\n[hợp lệ, không trùng lịch]
+
+state "Đã đặt" as DaDat
+state "Đang ở" as DangO
+state "Đã trả" as DaTra
+state "No-show" as NoShow
+
+DaDat : entry / Lưu chi tiết phòng
+DaDat : entry / Phòng = Đã đặt
+
+DangO : entry / Ghi NgayNhanThucTe
+DangO : entry / Phòng = Đang ở
+
+DaTra : entry / Ghi NgayTraThucTe
+DaTra : entry / Phòng = Trống
+
+NoShow : entry / Phòng = Trống
+
+DaDat --> DangO : NhanPhong()
+
+DangO --> DaTra : TraPhong()\n[hoa don da thanh toan]
+
+DaDat --> NoShow : DanhDauNoShow()
+
+DaTra --> [*]
+NoShow --> [*]
+
+@enduml

@@ -1,0 +1,172 @@
+
+@startuml
+left to right direction
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam class {
+    BackgroundColor #FFF9CC
+    BorderColor #CC3333
+    FontColor black
+    AttributeFontColor black
+}
+skinparam ArrowColor #CC3333
+skinparam linetype ortho
+
+class TienNghi {
+    MaTienNghi : String
+    SoThuTu : Integer
+    TinhTrangHienTai : String
+}
+
+class ChiTietPhieuDenBu {
+    MucDoThietHai : String
+    SoTien : Decimal
+}
+
+class LoaiTienNghi {
+    MaLoaiTN : String
+    TenLoaiTN : String
+}
+
+class QuyDinhDenBu {
+    MaQuyDinh : String
+    MucDoThietHai : String
+    MucDenBu : Decimal
+}
+
+class PhieuLapDat {
+    SoPhieuLapDat : String
+    NgayLap : Date
+    TinhTrang : String
+    GhiChu : String
+}
+
+class Phong {
+    SoPhong : String
+    SoNguoiToiDa : Integer
+    DonGiaNgay : Decimal
+    TrangThai : String
+}
+
+class KhuVuc {
+    MaKhuVuc : String
+    TenKhuVuc : String
+}
+
+class NhanVien {
+    MaNV : String
+    HoTen : String
+    VaiTro : String
+    SoDienThoai : String
+}
+
+class PhieuDenBu {
+    SoPhieuDenBu : String
+    NgayLap : DateTime
+    TongTien : Decimal
+}
+
+class ChiTietPhieuSuDungDV {
+    SoLuong : Integer
+    DonGia : Decimal
+    ThanhTien : Decimal
+}
+
+class DichVu {
+    MaDV : String
+    TenDV : String
+    DonViTinh : String
+    DonGia : Decimal
+}
+
+class PhieuSuDungDV {
+    SoPhieuSDDV : String
+    NgaySuDung : Date
+}
+
+class HoaDon {
+    SoHoaDon : String
+    NgayLap : DateTime
+    SoNgayTinhTien : Integer
+    TienPhong : Decimal
+    TienDichVu : Decimal
+    TongTien : Decimal
+    TrangThai : String
+}
+
+class ThanhToan {
+    MaThanhToan : String
+    NgayThanhToan : DateTime
+    HinhThuc : String
+    SoTien : Decimal
+}
+
+class PhieuDatPhong {
+    SoPhieuDat : String
+    NgayLap : DateTime
+    NgayNhan : Date
+    NgayTraDuKien : Date
+    TienCoc : Decimal
+    KenhDat : String
+    TrangThai : String
+    NgayNhanThucTe : DateTime
+    NgayTraThucTe : DateTime
+}
+
+class KhachHang {
+    MaKhach : String
+    HoTen : String
+    SoCMND : String
+    QuocTich : String
+    SoDienThoai : String
+}
+
+class ChiTietDatPhong {
+    SoNguoi : Integer
+}
+
+class NguoiLuuTru {
+    MaNguoiLT : Integer
+    HoTen : String
+    SoCMND : String
+    QuocTich : String
+}
+
+' Quan hệ nhóm tiện nghi
+LoaiTienNghi "1" -- "0..*" TienNghi
+TienNghi "1" -- "0..*" ChiTietPhieuDenBu
+TienNghi "1" -- "0..*" PhieuLapDat
+LoaiTienNghi "1" -- "0..*" QuyDinhDenBu
+
+' Quan hệ phòng và khu vực
+Phong "1" -- "0..*" PhieuLapDat
+KhuVuc "1" -- "0..*" Phong
+
+' Quan hệ nhân viên
+NhanVien "1" -- "0..*" PhieuLapDat
+NhanVien "1" -- "0..*" PhieuDenBu
+NhanVien "1" -- "0..*" PhieuSuDungDV
+NhanVien "1" -- "0..*" HoaDon
+NhanVien "1" -- "0..*" PhieuDatPhong
+
+' Quan hệ phiếu đền bù
+PhieuDenBu "1" *-- "0..*" ChiTietPhieuDenBu
+
+' Quan hệ dịch vụ
+DichVu "1" -- "0..*" ChiTietPhieuSuDungDV
+PhieuSuDungDV "1" *-- "1..*" ChiTietPhieuSuDungDV
+
+' Quan hệ hóa đơn và thanh toán
+HoaDon "1" -- "0..*" ThanhToan
+
+' Quan hệ đặt phòng
+HoaDon "0..1" -- "0..*" PhieuDatPhong
+KhachHang "1" -- "0..*" PhieuDatPhong
+PhieuDatPhong "1" *-- "0..*" ChiTietDatPhong
+Phong "1" -- "0..*" ChiTietDatPhong
+PhieuDenBu "1" -- "0..*" ChiTietDatPhong
+PhieuSuDungDV "1" -- "0..*" ChiTietDatPhong
+ChiTietDatPhong "1" -- "0..*" NguoiLuuTru
+
+@enduml
