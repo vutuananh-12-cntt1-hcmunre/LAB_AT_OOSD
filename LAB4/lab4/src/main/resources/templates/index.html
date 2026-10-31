@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>e-SHOPPING</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div class="logo">
+            e-SHOPPING
+        </div>
+
+        <nav class="menu">
+            <a href="/">Trang chủ</a>
+            <a href="/san-pham">Sản phẩm</a>
+            <a href="/gio-hang">Giỏ hàng</a>
+            <a href="/dang-nhap"
+   th:if="${session.khachHang == null}">
+    Đăng nhập
+</a>
+
+<a href="/dang-ky"
+   th:if="${session.khachHang == null}">
+    Đăng ký
+</a>
+
+<span th:if="${session.khachHang != null}"
+      style="color: white;">
+    Xin chào,
+    <span th:text="${session.khachHang.hoTen}"></span>
+</span>
+
+<a href="/dang-xuat"
+   th:if="${session.khachHang != null}">
+    Đăng xuất
+</a>
+        </nav>
+
+    </header>
+
+
+    <!-- BANNER -->
+    <section class="banner">
+
+        <div class="banner-content">
+
+            <h1>Chào mừng đến với e-SHOPPING</h1>
+
+            <p>
+                Hệ thống cửa hàng trực tuyến
+            </p>
+
+            <a href="/san-pham" class="btn">
+                Xem sản phẩm
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- CHỨC NĂNG -->
+    <section class="features">
+
+        <h2>Chức năng hệ thống</h2>
+
+        <div class="feature-container">
+
+            <div class="feature-card">
+                <h3>Sản phẩm</h3>
+                <p>
+                    Xem nhóm sản phẩm, danh sách sản phẩm
+                    và thông tin chi tiết sản phẩm.
+                </p>
+
+                <a href="/san-pham">
+                    Xem sản phẩm
+                </a>
+            </div>
+
+
+            <div class="feature-card">
+                <h3>Giỏ hàng</h3>
+                <p>
+                    Thêm sản phẩm vào giỏ hàng,
+                    thay đổi số lượng hoặc xóa sản phẩm.
+                </p>
+
+                <a href="/gio-hang">
+                    Xem giỏ hàng
+                </a>
+            </div>
+
+
+            <div class="feature-card">
+                <h3>Đặt hàng</h3>
+                <p>
+                    Nhập thông tin người nhận,
+                    chọn hình thức giao hàng và thanh toán.
+                </p>
+
+                <a href="/dat-hang">
+                    Đặt hàng
+                </a>
+            </div>
+
+
+            <div class="feature-card">
+                <h3>Tài khoản</h3>
+                <p>
+                    Đăng ký tài khoản và đăng nhập
+                    để thực hiện đặt hàng.
+                </p>
+
+                <a href="/dang-ky">
+                    Đăng ký
+                </a>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+
+        <p>
+            © 2026 e-SHOPPING
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

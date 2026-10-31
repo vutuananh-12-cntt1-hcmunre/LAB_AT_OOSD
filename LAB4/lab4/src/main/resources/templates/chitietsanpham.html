@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Chi tiết sản phẩm - e-SHOPPING</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+
+<header class="header">
+
+    <div class="logo">
+
+        <a th:href="@{/}">
+            e-SHOPPING
+        </a>
+
+    </div>
+
+
+    <nav class="nav">
+
+        <a th:href="@{/}">
+            Trang chủ
+        </a>
+
+        <a th:href="@{/san-pham}">
+            Sản phẩm
+        </a>
+
+        <a th:href="@{/gio-hang}">
+            Giỏ hàng
+        </a>
+
+
+        <span th:if="${session.khachHang == null}">
+
+            <a th:href="@{/dang-nhap}">
+                Đăng nhập
+            </a>
+
+            <a th:href="@{/dang-ky}">
+                Đăng ký
+            </a>
+
+        </span>
+
+
+        <span th:if="${session.khachHang != null}">
+
+            <span>
+                Xin chào,
+                <strong th:text="${session.khachHang.hoTen}">
+                    Khách hàng
+                </strong>
+            </span>
+
+            <a th:href="@{/dang-xuat}">
+                Đăng xuất
+            </a>
+
+        </span>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <div class="detail-container">
+
+
+        <!-- Hình ảnh -->
+
+        <div class="detail-image">
+
+            <img th:if="${sanPham.hinhAnh != null and !sanPham.hinhAnh.isEmpty()}"
+                 th:src="@{'/images/' + ${sanPham.hinhAnh}}"
+                 th:alt="${sanPham.tenSP}">
+
+            <div th:if="${sanPham.hinhAnh == null or sanPham.hinhAnh.isEmpty()}">
+
+                Không có hình ảnh
+
+            </div>
+
+        </div>
+
+
+        <!-- Thông tin -->
+
+        <div class="detail-info">
+
+            <h1 th:text="${sanPham.tenSP}">
+                Tên sản phẩm
+            </h1>
+
+
+            <p>
+
+                <strong>Mã sản phẩm:</strong>
+
+                <span th:text="${sanPham.maSP}">
+                    SP001
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>Nhà sản xuất:</strong>
+
+                <span th:text="${sanPham.nhaSanXuat}">
+                    Nhà sản xuất
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>Nhóm sản phẩm:</strong>
+
+                <span th:text="${sanPham.tenNhom}">
+                    Nhóm
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>Giá bán:</strong>
+
+                <span class="product-price"
+                      th:text="${#numbers.formatDecimal(sanPham.giaBan, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                    0 VNĐ
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>Tình trạng:</strong>
+
+                <span th:if="${sanPham.conHang}"
+                      class="available">
+
+                    Còn hàng
+
+                </span>
+
+                <span th:unless="${sanPham.conHang}"
+                      class="unavailable">
+
+                    Hết hàng
+
+                </span>
+
+            </p>
+
+
+            <hr>
+
+
+            <h3>
+                Mô tả sản phẩm
+            </h3>
+
+            <p th:text="${sanPham.moTa}">
+                Mô tả sản phẩm
+            </p>
+
+
+            <h3>
+                Thông số kỹ thuật
+            </h3>
+
+            <p th:text="${sanPham.thongSoKyThuat}">
+                Thông số kỹ thuật
+            </p>
+
+
+            <div class="product-actions">
+
+                <a class="btn"
+                   th:href="@{/san-pham}">
+
+                    Quay lại
+
+                </a>
+
+
+                <a class="btn"
+                   th:if="${sanPham.conHang}"
+                   th:href="@{/gio-hang/them(maSP=${sanPham.maSP})}">
+
+                    Thêm vào giỏ
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer class="footer">
+
+    <p>
+        © 2026 e-SHOPPING
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

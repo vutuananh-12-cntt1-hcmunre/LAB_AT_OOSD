@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Đăng ký - e-SHOPPING</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        e-SHOPPING
+    </div>
+
+    <nav class="menu">
+
+        <a href="/">Trang chủ</a>
+
+        <a href="/san-pham">
+            Sản phẩm
+        </a>
+
+        <a href="/gio-hang">
+            Giỏ hàng
+        </a>
+
+        <a href="/dang-nhap">
+            Đăng nhập
+        </a>
+
+    </nav>
+
+</header>
+
+
+<div class="form-container">
+
+    <h2>Đăng ký tài khoản</h2>
+
+    <p class="error"
+       th:if="${loi}"
+       th:text="${loi}">
+    </p>
+
+    <form th:action="@{/dang-ky}"
+          th:object="${khachHang}"
+          method="post">
+
+        <label>Họ và tên</label>
+
+        <input type="text"
+               th:field="*{hoTen}"
+               required>
+
+
+        <label>Ngày sinh</label>
+
+        <input type="date"
+               th:field="*{ngaySinh}">
+
+
+        <label>CCCD / Passport</label>
+
+        <input type="text"
+               th:field="*{cccdPassport}">
+
+
+        <label>Địa chỉ</label>
+
+        <input type="text"
+               th:field="*{diaChi}"
+               required>
+
+
+        <label>Số điện thoại</label>
+
+        <input type="text"
+               th:field="*{dienThoai}"
+               required>
+
+
+        <label>Tên đăng nhập</label>
+
+        <input type="text"
+               th:field="*{username}"
+               required>
+
+
+        <label>Mật khẩu</label>
+
+        <input type="password"
+               th:field="*{matKhau}"
+               required>
+
+
+        <label>Email</label>
+
+        <input type="email"
+               th:field="*{email}">
+
+
+        <button type="submit">
+            Đăng ký
+        </button>
+
+    </form>
+
+    <p>
+        Đã có tài khoản?
+        <a href="/dang-nhap">
+            Đăng nhập
+        </a>
+    </p>
+
+</div>
+
+</body>
+
+</html>

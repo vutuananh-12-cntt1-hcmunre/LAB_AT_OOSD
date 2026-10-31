@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Đăng nhập - e-SHOPPING</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        e-SHOPPING
+    </div>
+
+    <nav class="menu">
+
+        <a href="/">
+            Trang chủ
+        </a>
+
+        <a href="/san-pham">
+            Sản phẩm
+        </a>
+
+        <a href="/gio-hang">
+            Giỏ hàng
+        </a>
+
+        <a href="/dang-ky">
+            Đăng ký
+        </a>
+
+    </nav>
+
+</header>
+
+
+<div class="form-container">
+
+    <h2>Đăng nhập</h2>
+
+
+    <!-- Thông báo đăng ký thành công -->
+
+    <p class="success"
+       th:if="${thongBao}"
+       th:text="${thongBao}">
+    </p>
+
+
+    <!-- Thông báo lỗi -->
+
+    <p class="error"
+       th:if="${loi}"
+       th:text="${loi}">
+    </p>
+
+
+    <form action="/dang-nhap"
+          method="post">
+
+        <label>
+            Tên đăng nhập
+        </label>
+
+        <input type="text"
+               name="username"
+               required>
+
+
+        <label>
+            Mật khẩu
+        </label>
+
+        <input type="password"
+               name="matKhau"
+               required>
+
+
+        <button type="submit">
+            Đăng nhập
+        </button>
+
+    </form>
+
+
+    <p>
+        Chưa có tài khoản?
+
+        <a href="/dang-ky">
+            Đăng ký ngay
+        </a>
+    </p>
+
+</div>
+
+</body>
+
+</html>

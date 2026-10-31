@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sản phẩm - e-SHOPPING</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        <a th:href="@{/}">
+            e-SHOPPING
+        </a>
+    </div>
+
+    <nav class="nav">
+
+        <a th:href="@{/}">
+            Trang chủ
+        </a>
+
+        <a th:href="@{/san-pham}">
+            Sản phẩm
+        </a>
+
+        <a th:href="@{/gio-hang}">
+            Giỏ hàng
+        </a>
+
+        <span th:if="${session.khachHang == null}">
+            <a th:href="@{/dang-nhap}">
+                Đăng nhập
+            </a>
+
+            <a th:href="@{/dang-ky}">
+                Đăng ký
+            </a>
+        </span>
+
+        <span th:if="${session.khachHang != null}">
+
+            <span>
+                Xin chào,
+                <strong th:text="${session.khachHang.hoTen}">
+                    Khách hàng
+                </strong>
+            </span>
+
+            <a th:href="@{/dang-xuat}">
+                Đăng xuất
+            </a>
+
+        </span>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <h1>Danh sách sản phẩm</h1>
+
+    <!-- Nhóm sản phẩm -->
+    <div class="category-menu">
+
+        <a th:href="@{/san-pham}">
+            Tất cả
+        </a>
+
+        <a th:href="@{/san-pham(nhom='N01')}">
+            Máy ảnh kỹ thuật số
+        </a>
+
+        <a th:href="@{/san-pham(nhom='N02')}">
+            Thiết bị máy tính
+        </a>
+
+        <a th:href="@{/san-pham(nhom='N03')}">
+            Thiết bị điện tử
+        </a>
+
+    </div>
+
+
+    <!-- Danh sách sản phẩm -->
+    <div class="product-grid">
+
+        <div class="product-card"
+             th:each="sp : ${danhSachSanPham}">
+
+            <div class="product-image">
+
+                <img th:if="${sp.hinhAnh != null and !sp.hinhAnh.isEmpty()}"
+                     th:src="@{'/images/' + ${sp.hinhAnh}}"
+                     th:alt="${sp.tenSP}">
+
+                <div th:if="${sp.hinhAnh == null or sp.hinhAnh.isEmpty()}">
+                    Không có hình ảnh
+                </div>
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h2 th:text="${sp.tenSP}">
+                    Tên sản phẩm
+                </h2>
+
+                <p>
+                    Mã sản phẩm:
+                    <strong th:text="${sp.maSP}">
+                        SP001
+                    </strong>
+                </p>
+
+                <p>
+                    Nhà sản xuất:
+                    <span th:text="${sp.nhaSanXuat}">
+                        Nhà sản xuất
+                    </span>
+                </p>
+
+                <p>
+                    Nhóm:
+                    <span th:text="${sp.tenNhom}">
+                        Nhóm sản phẩm
+                    </span>
+                </p>
+
+                <p class="product-price">
+
+                    <span
+                        th:text="${#numbers.formatDecimal(sp.giaBan, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                        0 VNĐ
+                    </span>
+
+                </p>
+
+
+                <p>
+
+                    <span th:if="${sp.conHang}"
+                          class="available">
+                        Còn hàng
+                    </span>
+
+                    <span th:unless="${sp.conHang}"
+                          class="unavailable">
+                        Hết hàng
+                    </span>
+
+                </p>
+
+
+                <div class="product-actions">
+
+                    <a class="btn"
+                       th:href="@{/chi-tiet-san-pham(maSP=${sp.maSP})}">
+                        Xem chi tiết
+                    </a>
+
+                    <a class="btn"
+                       th:if="${sp.conHang}"
+                       th:href="@{/gio-hang/them(maSP=${sp.maSP})}">
+                        Thêm vào giỏ
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Không có sản phẩm -->
+    <div th:if="${#lists.isEmpty(danhSachSanPham)}">
+
+        <p>
+            Không tìm thấy sản phẩm.
+        </p>
+
+    </div>
+
+</main>
+
+
+<footer class="footer">
+
+    <p>
+        © 2026 e-SHOPPING
+    </p>
+
+</footer>
+
+</body>
+
+</html>
