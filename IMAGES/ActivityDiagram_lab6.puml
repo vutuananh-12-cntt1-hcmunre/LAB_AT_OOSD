@@ -1,0 +1,66 @@
+
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam activity {
+    BackgroundColor #EAF2F8
+    BorderColor #2874A6
+    DiamondBackgroundColor #FCF3CF
+    DiamondBorderColor #B7950B
+}
+
+title ACTIVITY DIAGRAM - NGHIỆP VỤ LẬP TOA THUỐC
+
+|Bác sĩ|
+start
+:Mở phiếu khám bệnh;
+:Xem thông tin bệnh nhân;
+:Xem triệu chứng và kết luận khám;
+
+|Hệ thống|
+:Kiểm tra kết quả xét nghiệm;
+
+if (Có kết quả xét nghiệm?) then (Có)
+    :Hiển thị kết quả xét nghiệm;
+else (Không)
+    :Tiếp tục dựa trên kết quả khám;
+endif
+
+|Bác sĩ|
+:Đánh giá tình trạng bệnh;
+if (Cần kê toa thuốc?) then (Có)
+    :Chọn thuốc điều trị;
+    :Nhập liều lượng, số lượng,\ncách dùng và số ngày dùng;
+    :Nhập lời dặn nếu có;
+else (Không)
+    :Không lập toa thuốc;
+    stop
+endif
+
+|Hệ thống|
+:Kiểm tra thông tin toa thuốc;
+
+while (Thông tin chưa hợp lệ?) is (Có)
+    |Bác sĩ|
+    :Chỉnh sửa thông tin toa thuốc;
+    |Hệ thống|
+    :Kiểm tra lại thông tin;
+endwhile (Không)
+
+:Lưu toa thuốc;
+:Lưu chi tiết toa thuốc;
+:Cập nhật liên kết với phiếu khám;
+
+if (Lưu thành công?) then (Có)
+    :Thông báo lập toa thành công;
+    |Bác sĩ|
+    :Kiểm tra và hoàn tất toa thuốc;
+else (Không)
+    :Thông báo lỗi;
+    |Bác sĩ|
+    :Thực hiện lại thao tác lưu;
+endif
+
+stop
+@enduml

@@ -1,0 +1,81 @@
+
+' @startuml đk bệnh nhân 
+' left to right direction
+
+' rectangle "Hệ thống quản lý bệnh viện" {
+'     usecase "Đăng ký bệnh nhân" as UC0
+'     usecase "Nhập thông tin cá nhân" as UC1
+'     usecase "Kiểm tra thông tin đăng ký" as UC2
+'     usecase "Ghi nhận thông tin đăng ký" as UC3
+'     usecase "Thu lệ phí quản lý\nhồ sơ hằng năm" as UC4
+'     usecase "Cấp mã hồ sơ bệnh án" as UC5
+'     usecase "Lập hồ sơ bệnh án" as UC6
+' }
+
+' UC0 ..> UC1 : <<include>>
+' UC0 ..> UC2 : <<include>>
+' UC0 ..> UC3 : <<include>>
+' UC0 ..> UC4 : <<include>>
+' UC0 ..> UC5 : <<include>>
+' UC0 ..> UC6 : <<include>>
+
+' @enduml
+
+
+' @startuml xét nghiệm
+' left to right direction
+
+' rectangle "Hệ thống quản lý bệnh viện" {
+'     usecase "Khám bệnh" as UC0
+'     usecase "Tra cứu hồ sơ bệnh án" as UC1
+'     usecase "Lập phiếu khám bệnh" as UC2
+'     usecase "Ghi nhận triệu chứng" as UC3
+'     usecase "Ghi nhận chỉ số sức khỏe" as UC4
+'     usecase "Đánh giá tình trạng bệnh" as UC5
+'     usecase "Chỉ định xét nghiệm" as UC6
+'     usecase "Tiếp nhận yêu cầu xét nghiệm" as UC7
+'     usecase "Thực hiện xét nghiệm" as UC8
+'     usecase "Ghi nhận kết quả xét nghiệm" as UC9
+' }
+
+' UC0 ..> UC1 : <<include>>
+' UC0 ..> UC2 : <<include>>
+' UC0 ..> UC3 : <<include>>
+' UC0 ..> UC4 : <<include>>
+' UC0 ..> UC5 : <<include>>
+' UC6 ..> UC0 : <<extend>>
+' UC7 ..> UC8 : <<include>>
+' UC8 ..> UC9 : <<include>>
+' UC7 ..> UC6 : <<include>>
+
+' @enduml
+
+
+' @startuml Toa thuốc 
+' left to right direction
+
+' rectangle "Hệ thống quản lý bệnh viện" {
+'     usecase "Lập và nhận toa thuốc" as UC0
+'     usecase "Tra cứu thông tin khám bệnh" as UC1
+'     usecase "Xem kết quả xét nghiệm (nếu có)" as UC2
+'     usecase "Đánh giá tình trạng bệnh" as UC3
+'     usecase "Chọn thuốc điều trị" as UC4
+'     usecase "Nhập liều lượng và cách dùng" as UC5
+'     usecase "Kiểm tra thông tin toa thuốc" as UC6
+'     usecase "Lưu toa thuốc vào hồ sơ bệnh án" as UC7
+'     usecase "Hoàn tất toa thuốc" as UC8
+'     usecase "Nhận toa thuốc" as UC9
+' }
+
+' UC0 ..> UC1 : <<include>>
+' UC2 ..> UC0 : <<extend>>
+' UC0 ..> UC3 : <<include>>
+' UC0 ..> UC4 : <<include>>
+' UC0 ..> UC5 : <<include>>
+' UC0 ..> UC6 : <<include>>
+' UC0 ..> UC7 : <<include>>
+' UC0 ..> UC8 : <<include>>
+' UC0 ..> UC9 : <<include>>
+
+' @enduml
+

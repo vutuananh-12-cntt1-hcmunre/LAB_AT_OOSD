@@ -1,0 +1,37 @@
+@startuml
+skinparam conditionStyle diamond
+title Activity Diagram: Phân nhóm ý kiến (Đề xuất tự động)
+
+|Cán bộ rà soát|
+start
+:Chọn chức năng "Phân nhóm ý kiến";
+
+|Hệ thống|
+:Hiển thị danh sách các ý kiến chưa được phân nhóm;
+
+|Cán bộ rà soát|
+:Chọn danh sách các ý kiến cần phân nhóm;
+if (Không chọn ý kiến nào hoặc Hủy?) then (Hủy/Trống)
+  |Hệ thống|
+  :Thông báo yêu cầu chọn ý kiến hoặc kết thúc;
+  stop
+else (Tiếp tục)
+endif
+:Nhấn yêu cầu "Chạy phân nhóm đề xuất";
+
+|Hệ thống|
+:Tiếp nhận danh sách ý kiến được chọn;
+:Phân tích nội dung văn bản từng ý kiến;
+if (Đủ dữ liệu phân tích?) then (Không)
+  :Thông báo không đủ dữ liệu để gợi ý nhóm;
+  stop
+else (Đủ dữ liệu)
+  :Tìm sự tương đồng về ngữ nghĩa/nội dung;
+  :Tạo các nhóm gợi ý phù hợp;
+  :Hiển thị bảng kết quả phân nhóm đề xuất;
+endif
+
+|Cán bộ rà soát|
+:Xem bảng kết quả phân nhóm đề xuất để chuẩn bị rà soát;
+stop
+@enduml

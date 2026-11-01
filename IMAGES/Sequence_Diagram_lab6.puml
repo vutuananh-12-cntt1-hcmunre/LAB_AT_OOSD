@@ -1,0 +1,58 @@
+
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam sequence {
+    ArrowColor #2874A6
+    LifeLineBorderColor #2874A6
+    LifeLineBackgroundColor #EAF2F8
+    ParticipantBorderColor #2874A6
+    ParticipantBackgroundColor #EAF2F8
+    ParticipantFontColor #154360
+    ActorBorderColor #2874A6
+}
+
+title SEQUENCE DIAGRAM - NGHIỆP VỤ LẬP TOA THUỐC
+
+actor "Bác sĩ" as BS
+boundary "Giao diện lập toa thuốc" as UI
+control "Xử lý toa thuốc" as Service
+database "Cơ sở dữ liệu" as DB
+
+BS -> UI : Chọn phiếu khám
+UI -> Service : Yêu cầu thông tin khám
+Service -> DB : Truy vấn phiếu khám
+DB --> Service : Thông tin phiếu khám
+Service -> DB : Truy vấn kết quả xét nghiệm
+DB --> Service : Kết quả xét nghiệm (nếu có)
+Service --> UI : Hiển thị thông tin khám
+UI --> BS : Hiển thị phiếu khám và kết quả
+
+BS -> UI : Nhập thông tin toa thuốc
+UI -> Service : Gửi thông tin toa thuốc
+Service -> Service : Kiểm tra dữ liệu toa thuốc
+
+alt Thông tin không hợp lệ
+    Service --> UI : Thông báo lỗi
+    UI --> BS : Yêu cầu chỉnh sửa
+else Thông tin hợp lệ
+    Service -> DB : Bắt đầu giao dịch
+    Service -> DB : Lưu thông tin toa thuốc
+    DB --> Service : Trả về mã toa thuốc
+    Service -> DB : Lưu chi tiết toa thuốc
+    DB --> Service : Kết quả lưu chi tiết
+
+    alt Lưu thành công
+        Service -> DB : Commit giao dịch
+        DB --> Service : Xác nhận hoàn tất
+        Service --> UI : Trả về toa thuốc đã lưu
+        UI --> BS : Hiển thị toa thuốc thành công
+    else Lỗi khi lưu
+        Service -> DB : Rollback giao dịch
+        DB --> Service : Xác nhận hoàn tác
+        Service --> UI : Thông báo lưu thất bại
+        UI --> BS : Hiển thị thông báo lỗi
+    end
+end
+
+@enduml
