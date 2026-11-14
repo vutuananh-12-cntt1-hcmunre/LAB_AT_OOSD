@@ -1,0 +1,190 @@
+@startuml
+!theme plain
+hide circle
+skinparam linetype ortho
+skinparam backgroundColor White
+skinparam nodesep 50
+skinparam ranksep 60
+skinparam entity {
+    BackgroundColor #F9F9F9
+    BorderColor Black
+    ArrowColor Black
+}
+
+title SƠ ĐỒ MỨC LOGIC CƠ SỞ DỮ LIỆU - HỆ THỐNG THAM VẤN CHÍNH SÁCH
+
+' --- 1. NHÓM DANH MỤC & NGƯỜI DÙNG ---
+entity "VAI_TRO" as VAI_TRO {
+    * **MaVaiTro** : VARCHAR(20) <<PK>>
+    --
+    * TenVaiTro : NVARCHAR(50) <<UQ>>
+}
+
+entity "CO_QUAN" as CO_QUAN {
+    * **MaCoQuan** : INT <<PK>>
+    --
+    * TenCoQuan : NVARCHAR(255)
+    EmailLienHe : VARCHAR(100)
+    SoDienThoai : VARCHAR(20)
+    DiaChi : NVARCHAR(255)
+    * TrangThai : BIT
+}
+
+entity "NGUOI_DUNG" as NGUOI_DUNG {
+    * **MaNguoiDung** : INT <<PK>>
+    --
+    * **MaVaiTro** : VARCHAR(20) <<FK>>
+    **MaCoQuan** : INT <<FK>>
+    * HoTen : NVARCHAR(100)
+    * Email : VARCHAR(100) <<UQ>>
+    * MatKhau : VARCHAR(255)
+    SoDienThoai : VARCHAR(20)
+    * DiaChi : NVARCHAR(255)
+    * TrangThai : BIT
+    * NgayTao : DATETIME2
+}
+
+' --- 2. NHÓM CHỦ ĐỀ & DỰ THẢO ---
+entity "CHU_DE_THAM_VAN" as CHU_DE {
+    * **MaChuDe** : INT <<PK>>
+    --
+    * **MaCoQuan** : INT <<FK>>
+    * **NguoiTao** : INT <<FK>>
+    * TieuDe : NVARCHAR(255)
+    NoiDungMoTa : NVARCHAR(MAX)
+    * ThoiGianBatDau : DATETIME2
+    * ThoiGianKetThuc : DATETIME2
+    * TrangThai : NVARCHAR(30)
+    * NgayTao : DATETIME2
+}
+
+entity "DU_THAO" as DU_THAO {
+    * **MaDuThao** : INT <<PK>>
+    --
+    * **MaChuDe** : INT <<FK>>
+    * **NguoiCapNhat** : INT <<FK>>
+    **MaDuThao_Truoc** : INT <<FK>>
+    * TenDuThao : NVARCHAR(255)
+    * PhienBan : VARCHAR(20)
+    * NoiDung : NVARCHAR(MAX)
+    * TrangThai : NVARCHAR(30)
+    * ThoiDiemTao : DATETIME2
+    GhiChuThayDoi : NVARCHAR(MAX)
+}
+
+entity "CONG_BO_KET_QUA" as CONG_BO {
+    * **MaCongBo** : INT <<PK>>
+    --
+    * **MaChuDe** : INT <<FK>>
+    * **MaDuThao** : INT <<FK>>
+    * **NguoiCongBo** : INT <<FK>>
+    * ThoiDiemCongBo : DATETIME2
+    * NoiDungCongBo : NVARCHAR(MAX)
+}
+
+' --- 3. NHÓM Ý KIẾN, PHÂN NHÓM & TÀI LIỆU ---
+entity "NHOM_Y_KIEN" as NHOM {
+    * **MaNhom** : INT <<PK>>
+    --
+    * **MaChuDe** : INT <<FK>>
+    * TenNhom : NVARCHAR(255)
+    MoTa : NVARCHAR(MAX)
+}
+
+entity "Y_KIEN" as Y_KIEN {
+    * **MaYKien** : INT <<PK>>
+    --
+    * **MaChuDe** : INT <<FK>>
+    * **NguoiGui** : INT <<FK>>
+    **MaNhom_AI_DeXuat** : INT <<FK>>
+    **MaNhom_ChinhThuc** : INT <<FK>>
+    **NguoiRaSoat** : INT <<FK>>
+    * NoiDung : NVARCHAR(MAX)
+    * ThoiDiemGui : DATETIME2
+    ThoiDiemRaSoat : DATETIME2
+    * TrangThaiXuLy : NVARCHAR(30)
+}
+
+entity "TAI_LIEU_Y_KIEN" as TAI_LIEU {
+    * **MaTaiLieu** : INT <<PK>>
+    --
+    * **MaYKien** : INT <<FK>>
+    * TenTep : NVARCHAR(255)
+    * DuongDanTep : NVARCHAR(1000)
+    LoaiTep : VARCHAR(100)
+    KichThuoc : BIGINT
+    * ThoiDiemTaiLen : DATETIME2
+}
+
+' --- 4. NHÓM PHẢN HỒI & TRUY VẾT ---
+entity "PHAN_HOI" as PHAN_HOI {
+    * **MaPhanHoi** : INT <<PK>>
+    --
+    **MaYKien** : INT <<FK>>
+    **MaNhom** : INT <<FK>>
+    * **NguoiPhanHoi** : INT <<FK>>
+    * KetQuaXuLy : NVARCHAR(50)
+    * NoiDungGiaiThich : NVARCHAR(MAX)
+    * ThoiDiemPhanHoi : DATETIME2
+}
+
+entity "LIEN_KET_THAY_DOI" as LIEN_KET {
+    * **MaLienKet** : INT <<PK>>
+    --
+    * **MaDuThao_Moi** : INT <<FK>>
+    * **MaYKien** : INT <<FK>>
+    **MaPhanHoi** : INT <<FK>>
+    NoiDungThayDoi : NVARCHAR(MAX)
+}
+
+entity "LICH_SU_XU_LY" as LICH_SU {
+    * **MaLichSu** : BIGINT <<PK>>
+    --
+    **MaYKien** : INT <<FK>>
+    **MaDuThao** : INT <<FK>>
+    **MaNguoiThucHien** : INT <<FK>>
+    * HanhDong : NVARCHAR(100)
+    * ThoiDiem : DATETIME2
+    GhiChu : NVARCHAR(MAX)
+}
+
+' --- MỐI QUAN HỆ KHÓA NGOẠI (CROW'S FOOT NOTATION) ---
+
+VAI_TRO ||--o{ NGUOI_DUNG : "phân quyền"
+CO_QUAN |o--o{ NGUOI_DUNG : "trực thuộc"
+
+CO_QUAN ||--o{ CHU_DE : "chủ trì"
+NGUOI_DUNG ||--o{ CHU_DE : "tạo"
+
+CHU_DE ||--|{ DU_THAO : "sở hữu"
+NGUOI_DUNG ||--o{ DU_THAO : "cập nhật"
+DU_THAO |o--o{ DU_THAO : "kế thừa (MaDuThao_Truoc)"
+
+CHU_DE ||--o{ NHOM : "phân chia"
+CHU_DE ||--o{ Y_KIEN : "tiếp nhận"
+
+NGUOI_DUNG ||--o{ Y_KIEN : "gửi (NguoiGui)"
+NGUOI_DUNG |o--o{ Y_KIEN : "rà soát (NguoiRaSoat)"
+
+NHOM |o--o{ Y_KIEN : "AI đề xuất"
+NHOM |o--o{ Y_KIEN : "phân nhóm chính thức"
+
+Y_KIEN ||--o{ TAI_LIEU : "đính kèm"
+
+NGUOI_DUNG ||--o{ PHAN_HOI : "lập phản hồi"
+Y_KIEN |o--o{ PHAN_HOI : "phản hồi lẻ"
+NHOM |o--o{ PHAN_HOI : "phản hồi nhóm"
+
+DU_THAO ||--o{ LIEN_KET : "cập nhật từ"
+Y_KIEN ||--o{ LIEN_KET : "tác động đến"
+PHAN_HOI |o--o{ LIEN_KET : "cơ sở chỉnh sửa"
+
+CHU_DE ||--o{ CONG_BO : "tổng kết"
+DU_THAO ||--o{ CONG_BO : "bản hoàn chỉnh"
+NGUOI_DUNG ||--o{ CONG_BO : "công bố"
+
+NGUOI_DUNG |o--o{ LICH_SU : "thực hiện"
+Y_KIEN |o--o{ LICH_SU : "ghi vết ý kiến"
+DU_THAO |o--o{ LICH_SU : "ghi vết dự thảo"
+
+@enduml 
