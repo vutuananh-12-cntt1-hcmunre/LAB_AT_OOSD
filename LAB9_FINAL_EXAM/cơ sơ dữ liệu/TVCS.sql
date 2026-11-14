@@ -1,0 +1,285 @@
+CREATE DATABASE ThamVanChinhSach;
+GO
+
+USE ThamVanChinhSach;
+GO
+
+/* 1. VAI TRO */
+CREATE TABLE dbo.VAI_TRO (
+    MaVaiTro VARCHAR(20) NOT NULL CONSTRAINT PK_VAI_TRO PRIMARY KEY,
+    TenVaiTro NVARCHAR(50) NOT NULL,
+    CONSTRAINT UQ_VAI_TRO_TEN UNIQUE (TenVaiTro)
+);
+GO
+
+/* 2. CO QUAN */
+CREATE TABLE dbo.CO_QUAN (
+    MaCoQuan INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_CO_QUAN PRIMARY KEY,
+    TenCoQuan NVARCHAR(255) NOT NULL,
+    EmailLienHe VARCHAR(100) NULL,
+    SoDienThoai VARCHAR(20) NULL,
+    DiaChi NVARCHAR(255) NULL,
+    TrangThai BIT NOT NULL CONSTRAINT DF_CO_QUAN_TrangThai DEFAULT (1)
+);
+GO
+
+/* 3. NGUOI DUNG
+   MaCoQuan co the NULL cho nguoi dan/admin khong thuoc co quan.
+*/
+CREATE TABLE dbo.NGUOI_DUNG (
+    MaNguoiDung INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_NGUOI_DUNG PRIMARY KEY,
+    HoTen NVARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    MatKhau VARCHAR(255) NOT NULL, -- Luu HASH mat khau, khong luu mat khau ro
+    SoDienThoai VARCHAR(20) NULL,
+    DiaChi NVARCHAR(255) not NULL,
+    MaVaiTro VARCHAR(20) NOT NULL,
+    MaCoQuan INT NULL,
+    TrangThai BIT NOT NULL CONSTRAINT DF_NGUOI_DUNG_TrangThai DEFAULT (1),
+    NgayTao DATETIME2(0) NOT NULL CONSTRAINT DF_NGUOI_DUNG_NgayTao DEFAULT (SYSDATETIME()),
+    CONSTRAINT UQ_NGUOI_DUNG_Email UNIQUE (Email),
+    CONSTRAINT FK_NGUOI_DUNG_VAI_TRO FOREIGN KEY (MaVaiTro) REFERENCES dbo.VAI_TRO(MaVaiTro),
+    CONSTRAINT FK_NGUOI_DUNG_CO_QUAN FOREIGN KEY (MaCoQuan) REFERENCES dbo.CO_QUAN(MaCoQuan)
+);
+GO
+
+
+select * from CHU_DE_THAM_VAN
+
+/* 4. CHU DE THAM VAN */
+CREATE TABLE dbo.CHU_DE_THAM_VAN (
+    MaChuDe INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_CHU_DE_THAM_VAN PRIMARY KEY,
+    MaCoQuan INT NOT NULL,
+    TieuDe NVARCHAR(255) NOT NULL,
+    NoiDungMoTa NVARCHAR(MAX) NULL,
+    ThoiGianBatDau DATETIME2(0) NOT NULL,
+    ThoiGianKetThuc DATETIME2(0) NOT NULL,
+    TrangThai NVARCHAR(30) NOT NULL CONSTRAINT DF_CHU_DE_TrangThai DEFAULT (N'Bản nháp'),
+    NguoiTao INT NOT NULL,
+    NgayTao DATETIME2(0) NOT NULL CONSTRAINT DF_CHU_DE_NgayTao DEFAULT (SYSDATETIME()),
+    CONSTRAINT FK_CHU_DE_CO_QUAN FOREIGN KEY (MaCoQuan) REFERENCES dbo.CO_QUAN(MaCoQuan),
+    CONSTRAINT FK_CHU_DE_NGUOI_TAO FOREIGN KEY (NguoiTao) REFERENCES dbo.NGUOI_DUNG(MaNguoiDung),
+    CONSTRAINT CK_CHU_DE_THOI_GIAN CHECK (ThoiGianKetThuc > ThoiGianBatDau),
+    CONSTRAINT CK_CHU_DE_TRANG_THAI CHECK (TrangThai IN (N'Bản nháp', N'Đang mở', N'Đã đóng', N'Đã công bố'))
+);
+GO
+
+/* 5. DU THAO - MOI PHIEN BAN LA MOT BAN GHI RIENG */
+CREATE TABLE dbo.DU_THAO (
+    MaDuThao INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_DU_THAO PRIMARY KEY,
+    MaChuDe INT NOT NULL,
+    TenDuThao NVARCHAR(255) NOT NULL,
+    PhienBan VARCHAR(20) NOT NULL,
+    NoiDung NVARCHAR(MAX) NOT NULL,
+    TrangThai NVARCHAR(30) NOT NULL CONSTRAINT DF_DU_THAO_TrangThai DEFAULT (N'Bản nháp'),
+    ThoiDiemTao DATETIME2(0) NOT NULL CONSTRAINT DF_DU_THAO_ThoiDiemTao DEFAULT (SYSDATETIME()),
+    NguoiCapNhat INT NOT NULL,
+    MaDuThao_Truoc INT NULL,
+    GhiChuThayDoi NVARCHAR(MAX) NULL,
+    CONSTRAINT FK_DU_THAO_CHU_DE FOREIGN KEY (MaChuDe) REFERENCES dbo.CHU_DE_THAM_VAN(MaChuDe),
+    CONSTRAINT FK_DU_THAO_NGUOI_CAP_NHAT FOREIGN KEY (NguoiCapNhat) REFERENCES dbo.NGUOI_DUNG(MaNguoiDung),
+    CONSTRAINT FK_DU_THAO_PHIEN_BAN_TRUOC FOREIGN KEY (MaDuThao_Truoc) REFERENCES dbo.DU_THAO(MaDuThao),
+    CONSTRAINT UQ_DU_THAO_CHUDE_PHIENBAN UNIQUE (MaChuDe, PhienBan),
+    CONSTRAINT CK_DU_THAO_TRANG_THAI CHECK (TrangThai IN (N'Bản nháp', N'Đã công bố', N'Đã thay thế'))
+);
+GO
+
+/* 6. NHOM Y KIEN */
+CREATE TABLE dbo.NHOM_Y_KIEN (
+    MaNhom INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_NHOM_Y_KIEN PRIMARY KEY,
+    MaChuDe INT NOT NULL,
+    TenNhom NVARCHAR(255) NOT NULL,
+    MoTa NVARCHAR(MAX) NULL,
+    CONSTRAINT FK_NHOM_Y_KIEN_CHU_DE FOREIGN KEY (MaChuDe) REFERENCES dbo.CHU_DE_THAM_VAN(MaChuDe),
+    CONSTRAINT UQ_NHOM_CHUDE UNIQUE (MaChuDe, MaNhom)
+);
+GO
+
+/* 7. Y KIEN */
+CREATE TABLE dbo.Y_KIEN (
+    MaYKien INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_Y_KIEN PRIMARY KEY,
+    MaChuDe INT NOT NULL,
+    NguoiGui INT NOT NULL,
+    NoiDung NVARCHAR(MAX) NOT NULL,
+    ThoiDiemGui DATETIME2(0) NOT NULL CONSTRAINT DF_Y_KIEN_ThoiDiemGui DEFAULT (SYSDATETIME()),
+    MaNhom_AI_DeXuat INT NULL,
+    MaNhom_ChinhThuc INT NULL,
+    NguoiRaSoat INT NULL,
+    ThoiDiemRaSoat DATETIME2(0) NULL,
+    TrangThaiXuLy NVARCHAR(30) NOT NULL CONSTRAINT DF_Y_KIEN_TrangThai DEFAULT (N'Mới tiếp nhận'),
+    CONSTRAINT FK_Y_KIEN_CHU_DE FOREIGN KEY (MaChuDe) REFERENCES dbo.CHU_DE_THAM_VAN(MaChuDe),
+    CONSTRAINT FK_Y_KIEN_NGUOI_GUI FOREIGN KEY (NguoiGui) REFERENCES dbo.NGUOI_DUNG(MaNguoiDung),
+    CONSTRAINT FK_Y_KIEN_NGUOI_RA_SOAT FOREIGN KEY (NguoiRaSoat) REFERENCES dbo.NGUOI_DUNG(MaNguoiDung),
+    CONSTRAINT FK_Y_KIEN_NHOM_AI FOREIGN KEY (MaChuDe, MaNhom_AI_DeXuat)
+        REFERENCES dbo.NHOM_Y_KIEN(MaChuDe, MaNhom),
+    CONSTRAINT FK_Y_KIEN_NHOM_CHINH_THUC FOREIGN KEY (MaChuDe, MaNhom_ChinhThuc)
+        REFERENCES dbo.NHOM_Y_KIEN(MaChuDe, MaNhom),
+    CONSTRAINT CK_Y_KIEN_TRANG_THAI CHECK (TrangThaiXuLy IN
+        (N'Mới tiếp nhận', N'Chờ phân nhóm', N'Chờ rà soát', N'Đã rà soát', N'Đã phản hồi')),
+    CONSTRAINT CK_Y_KIEN_NHOM_DA_RA_SOAT CHECK (
+        MaNhom_ChinhThuc IS NULL OR
+        (NguoiRaSoat IS NOT NULL AND ThoiDiemRaSoat IS NOT NULL)
+    )
+);
+GO
+
+/* 8. TAI LIEU DINH KEM */
+CREATE TABLE dbo.TAI_LIEU_Y_KIEN (
+    MaTaiLieu INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_TAI_LIEU_Y_KIEN PRIMARY KEY,
+    MaYKien INT NOT NULL,
+    TenTep NVARCHAR(255) NOT NULL,
+    DuongDanTep NVARCHAR(1000) NOT NULL,
+    LoaiTep VARCHAR(100) NULL,
+    KichThuoc BIGINT NULL,
+    ThoiDiemTaiLen DATETIME2(0) NOT NULL CONSTRAINT DF_TAI_LIEU_ThoiDiem DEFAULT (SYSDATETIME()),
+    CONSTRAINT FK_TAI_LIEU_Y_KIEN FOREIGN KEY (MaYKien) REFERENCES dbo.Y_KIEN(MaYKien),
+    CONSTRAINT CK_TAI_LIEU_KICH_THUOC CHECK (KichThuoc IS NULL OR KichThuoc >= 0)
+);
+GO
+
+/* 9. PHAN HOI
+   Moi phan hoi gan dung mot doi tuong: y kien hoac nhom y kien.
+*/
+CREATE TABLE dbo.PHAN_HOI (
+    MaPhanHoi INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_PHAN_HOI PRIMARY KEY,
+    MaYKien INT NULL,
+    MaNhom INT NULL,
+    KetQuaXuLy NVARCHAR(50) NOT NULL,
+    NoiDungGiaiThich NVARCHAR(MAX) NOT NULL,
+    NguoiPhanHoi INT NOT NULL,
+    ThoiDiemPhanHoi DATETIME2(0) NOT NULL CONSTRAINT DF_PHAN_HOI_ThoiDiem DEFAULT (SYSDATETIME()),
+    CONSTRAINT FK_PHAN_HOI_Y_KIEN FOREIGN KEY (MaYKien) REFERENCES dbo.Y_KIEN(MaYKien),
+    CONSTRAINT FK_PHAN_HOI_NHOM FOREIGN KEY (MaNhom) REFERENCES dbo.NHOM_Y_KIEN(MaNhom),
+    CONSTRAINT FK_PHAN_HOI_NGUOI_DUNG FOREIGN KEY (NguoiPhanHoi) REFERENCES dbo.NGUOI_DUNG(MaNguoiDung),
+    CONSTRAINT CK_PHAN_HOI_DOI_TUONG CHECK (
+        (MaYKien IS NOT NULL AND MaNhom IS NULL) OR
+        (MaYKien IS NULL AND MaNhom IS NOT NULL)
+    ),
+    CONSTRAINT CK_PHAN_HOI_KET_QUA CHECK (KetQuaXuLy IN (N'Tiếp thu', N'Tiếp thu một phần', N'Không tiếp thu'))
+);
+GO
+
+/* 10. LIEN KET THAY DOI DU THAO VA Y KIEN */
+CREATE TABLE dbo.LIEN_KET_THAY_DOI (
+    MaLienKet INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_LIEN_KET_THAY_DOI PRIMARY KEY,
+    MaDuThao_Moi INT NOT NULL,
+    MaYKien INT NOT NULL,
+    MaPhanHoi INT NULL,
+    NoiDungThayDoi NVARCHAR(MAX) NULL,
+    CONSTRAINT FK_LKT_DU_THAO FOREIGN KEY (MaDuThao_Moi) REFERENCES dbo.DU_THAO(MaDuThao),
+    CONSTRAINT FK_LKT_Y_KIEN FOREIGN KEY (MaYKien) REFERENCES dbo.Y_KIEN(MaYKien),
+    CONSTRAINT FK_LKT_PHAN_HOI FOREIGN KEY (MaPhanHoi) REFERENCES dbo.PHAN_HOI(MaPhanHoi),
+    CONSTRAINT UQ_LKT_DUTHAO_YKIEN UNIQUE (MaDuThao_Moi, MaYKien)
+);
+GO
+
+/* 11. CONG BO KET QUA */
+CREATE TABLE dbo.CONG_BO_KET_QUA (
+    MaCongBo INT IDENTITY(1,1) NOT NULL CONSTRAINT PK_CONG_BO_KET_QUA PRIMARY KEY,
+    MaChuDe INT NOT NULL,
+    MaDuThao INT NOT NULL,
+    NguoiCongBo INT NOT NULL,
+    ThoiDiemCongBo DATETIME2(0) NOT NULL CONSTRAINT DF_CONG_BO_ThoiDiem DEFAULT (SYSDATETIME()),
+    NoiDungCongBo NVARCHAR(MAX) NOT NULL,
+    CONSTRAINT FK_CONG_BO_CHU_DE FOREIGN KEY (MaChuDe) REFERENCES dbo.CHU_DE_THAM_VAN(MaChuDe),
+    CONSTRAINT FK_CONG_BO_DU_THAO FOREIGN KEY (MaDuThao) REFERENCES dbo.DU_THAO(MaDuThao),
+    CONSTRAINT FK_CONG_BO_NGUOI_DUNG FOREIGN KEY (NguoiCongBo) REFERENCES dbo.NGUOI_DUNG(MaNguoiDung)
+);
+GO
+
+/* 12. LICH SU XU LY */
+CREATE TABLE dbo.LICH_SU_XU_LY (
+    MaLichSu BIGINT IDENTITY(1,1) NOT NULL CONSTRAINT PK_LICH_SU_XU_LY PRIMARY KEY,
+    MaYKien INT NULL,
+    MaDuThao INT NULL,
+    MaNguoiThucHien INT NULL,
+    HanhDong NVARCHAR(100) NOT NULL,
+    ThoiDiem DATETIME2(0) NOT NULL CONSTRAINT DF_LICH_SU_ThoiDiem DEFAULT (SYSDATETIME()),
+    GhiChu NVARCHAR(MAX) NULL,
+    CONSTRAINT FK_LICH_SU_Y_KIEN FOREIGN KEY (MaYKien) REFERENCES dbo.Y_KIEN(MaYKien),
+    CONSTRAINT FK_LICH_SU_DU_THAO FOREIGN KEY (MaDuThao) REFERENCES dbo.DU_THAO(MaDuThao),
+    CONSTRAINT FK_LICH_SU_NGUOI_DUNG FOREIGN KEY (MaNguoiThucHien) REFERENCES dbo.NGUOI_DUNG(MaNguoiDung),
+    CONSTRAINT CK_LICH_SU_DOI_TUONG CHECK (MaYKien IS NOT NULL OR MaDuThao IS NOT NULL)
+);
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID(N'dbo.Y_KIEN') AND name = 'NoiDungPhanHoi')
+BEGIN
+    ALTER TABLE dbo.Y_KIEN ADD NoiDungPhanHoi NVARCHAR(MAX) NULL;
+    ALTER TABLE dbo.Y_KIEN ADD NguoiPhanHoi INT NULL;
+    ALTER TABLE dbo.Y_KIEN ADD ThoiDiemPhanHoi DATETIME2(0) NULL;
+END
+GO
+
+/* 13. INDEX ho tro tra cuu */
+CREATE INDEX IX_Y_KIEN_CHUDE_TRANGTHAI ON dbo.Y_KIEN(MaChuDe, TrangThaiXuLy);
+CREATE INDEX IX_Y_KIEN_NGUOIGUI ON dbo.Y_KIEN(NguoiGui);
+CREATE INDEX IX_LICH_SU_YKIEN_THOIDIEM ON dbo.LICH_SU_XU_LY(MaYKien, ThoiDiem);
+CREATE INDEX IX_DU_THAO_CHUDE ON dbo.DU_THAO(MaChuDe, ThoiDiemTao);
+GO
+
+/* 14. DU LIEU VAI TRO MAU */
+INSERT INTO dbo.VAI_TRO (MaVaiTro, TenVaiTro)
+VALUES
+('NGUOI_DAN', N'Người dân'),
+('RA_SOAT', N'Cán bộ rà soát'),
+('CAN_BO_CO_QUAN', N'Cán bộ cơ quan'),
+('ADMIN', N'Quản trị viên');
+GO
+
+
+INSERT INTO dbo.CO_QUAN (TenCoQuan, EmailLienHe, SoDienThoai, DiaChi)
+VALUES (N'Sở Tài nguyên và Môi trường', 'sotnmt@gov.vn', '02838291000', N'TP. Hồ Chí Minh');
+GO
+
+select * from NGUOI_DUNG
+INSERT INTO dbo.CHU_DE_THAM_VAN (MaCoQuan, TieuDe, NoiDungMoTa, ThoiGianBatDau, ThoiGianKetThuc, TrangThai, NguoiTao)
+VALUES (
+    1, 
+    N'Tham vấn Luật Giao thông Đường bộ (Sửa đổi)', 
+    N'Lấy ý kiến về quy định tốc độ và làn đường ưu tiên.',
+    SYSDATETIME(), 
+    DATEADD(DAY, 30, SYSDATETIME()), 
+    N'Đang mở', 
+    1
+);
+GO
+
+SELECT MaNguoiDung, HoTen, Email, MaVaiTro FROM dbo.NGUOI_DUNG;
+INSERT INTO dbo.NGUOI_DUNG (HoTen, Email, MatKhau, SoDienThoai, DiaChi, MaVaiTro, MaCoQuan)
+VALUES (N'Nguyễn Văn Cán Bộ', 'canbo@gov.vn', '123456', '0912345678', N'TP.HCM', 'CAN_BO_CO_QUAN', 1);
+
+-- 3. Cập nhật lại NguoiTao trong bảng CHU_DE_THAM_VAN sang ID của Cán bộ (ví dụ ID = 2)
+UPDATE dbo.CHU_DE_THAM_VAN 
+SET NguoiTao = (SELECT TOP 1 MaNguoiDung FROM dbo.NGUOI_DUNG WHERE MaVaiTro = 'CAN_BO_CO_QUAN')
+WHERE MaChuDe = 1;
+GO
+
+USE ThamVanChinhSach;
+GO
+
+-- 1. Xóa sạch các nhóm ý kiến hiện tại (để chuẩn bị làm mới)
+DELETE FROM dbo.NHOM_Y_KIEN;
+GO
+
+-- 2. Reset bộ đếm ID về lại 0 (để bản ghi tiếp theo chèn vào sẽ bắt đầu từ 1)
+DBCC CHECKIDENT ('dbo.NHOM_Y_KIEN', RESEED, 0);
+GO
+
+-- 3. Nạp lại 3 nhóm mẫu
+INSERT INTO dbo.NHOM_Y_KIEN (MaChuDe, TenNhom, MoTa)
+VALUES 
+(1, N'Nhóm 1: Mức xử phạt vi phạm nồng độ cồn', N'Các ý kiến liên quan đến khung tiền phạt và hình phạt bổ sung.'),
+(1, N'Nhóm 2: Tốc độ tối đa và khoảng cách an toàn', N'Ý kiến góp ý về quy định tốc độ trên cao tốc và quốc lộ.'),
+(1, N'Nhóm 3: Hạ tầng giao thông và biển báo', N'Góp ý về vạch kẻ đường, đèn tín hiệu và phân làn.');
+GO
+
+SELECT MaNhom, TenNhom FROM dbo.NHOM_Y_KIEN;
+go
+
+USE ThamVanChinhSach;
+GO
+
+INSERT INTO dbo.NGUOI_DUNG (HoTen, Email, MatKhau, SoDienThoai, DiaChi, MaVaiTro, MaCoQuan)
+VALUES (N'Nguyễn Văn Rà Soát', 'rasoat@gmail.com', '123456', '0912345678', N'TP.HCM', 'RA_SOAT', 1);
+GO
